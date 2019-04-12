@@ -20,7 +20,7 @@ A brief description of each project can be found below.
 ##### Prerequisites:
 - Visual Studio 2017 or higher,
 - .NET Standard 2.0 and higher,
-- ASP.NET Core 2.1 or higher.
+- .NET Framework 4.6.2 or higher or ASP.NET Core 2.1 or higher.
 
 ##### Dependencies:
 - [Active Query Builder Core](https://www.nuget.org/packages/ActiveQueryBuilder.Core/),
