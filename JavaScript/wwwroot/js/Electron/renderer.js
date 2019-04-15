@@ -13,7 +13,8 @@ var statusbar = document.getElementById('statusbar');
 var grid = document.getElementById('grid');
 var sql = document.getElementById('sql');
 
-AQB.Web.UI.QueryBuilder(instanceId, qb, { host: 'http://localhost:1067' });
+AQB.Web.host = 'http://localhost:1067';
+AQB.Web.UI.QueryBuilder(instanceId, qb);
 AQB.Web.UI.ObjectTreeView(instanceId, treeview);
 AQB.Web.UI.SubQueryNavigationBar(instanceId, navbar);
 AQB.Web.UI.Canvas(instanceId, canvas);

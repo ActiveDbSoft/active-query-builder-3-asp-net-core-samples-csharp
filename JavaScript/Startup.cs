@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ActiveQueryBuilder.Web.Core;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +35,12 @@ namespace AspNetCoreJavaScript
         public void ConfigureServices(IServiceCollection services)
         {
             // Active Query Builder requires support for Session HttpContext. 
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                // Prevent SameSite=lax cookie property for Electron
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(Configuration);
 
@@ -59,7 +66,7 @@ namespace AspNetCoreJavaScript
 
             // Active Query Builder requires support for Session HttpContext.
             app.UseSession();
-
+            
             // Active Query Builder server requests handler.
             app.UseActiveQueryBuilder();
 
