@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>Active Query Builder</h1>
+        <p class="lead">Active Query Builder is a visual SQL query builder component with powerful API to parse, analyze, and modify SQL queries.</p>
+        <p><a href="https://www.activequerybuilder.com/" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">Basic Demos</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Simple Custom Storage Demo</h3>
+            <p>Stores QueryBuilder objects in SQLite DB.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "SimpleDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Custom Storage Display Query Results</h3>
+            <p>Stores both QueryBuilder and QueryTransformer objects in Sqlite DB, displays several fully functional instances on separate tabs.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "QueryResultsDemo")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+</div>

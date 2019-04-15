@@ -1,0 +1,86 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Handle User-defined Queries Events Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Handle User-defined Queries Events Demo</h1>
+        <p>Performing specific actions in the process of working with user-defined queries.</p>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="queries-tab" name="qb-tabs" />
+                            <label for="queries-tab">Queries</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.UserQueries().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.6/jquery.jgrowl.min.css" type="text/css" rel="stylesheet" />
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.6/jquery.jgrowl.min.js"></script>
+    <script>
+        AQB.Web.onQueryBuilderReady(function (qb) {
+            var uq = qb.UserQueriesComponent;
+
+            uq.on(uq.Events.OnCreateFolder, onCreateFolder);
+            uq.on(uq.Events.OnCreateUserQuery, onCreateUserQuery);
+            uq.on(uq.Events.OnSaveUserQuery, onSaveUserQuery);
+            uq.on(uq.Events.OnRemove, onRemove);
+            uq.on(uq.Events.OnRename, onRename);
+        });
+
+        function onCreateFolder() {
+            $.jGrowl('Query Folder has been created', { header: 'UserQueries Event' });
+        }
+
+        function onCreateUserQuery() {
+            $.jGrowl('UserQuery has been created', { header: 'UserQueries Event' });
+        }
+
+        function onSaveUserQuery() {
+            $.jGrowl('UserQuery has been saved', { header: 'UserQueries Event' });
+        }
+
+        function onRemove() {
+            $.jGrowl('Item has been removed', { header: 'UserQueries Event' });
+        }
+
+        function onRename() {
+            $.jGrowl("Item has been renamed", { header: 'UserQueries Event' });
+        }
+    </script>
+}

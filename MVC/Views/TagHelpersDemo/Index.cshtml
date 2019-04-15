@@ -1,0 +1,38 @@
+﻿@model ActiveQueryBuilder.Web.Server.QueryBuilder
+
+@{
+    ViewBag.Title = "TagHelpers Demo";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>TagHelpers Demo</h1>
+    </div>
+    <div class="col-md-12">
+        <query-builder query-builder="@Model"></query-builder>
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked/>
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                <object-tree-view query-builder="@Model"></object-tree-view>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    <sub-query-navigation-bar query-builder="@Model"></sub-query-navigation-bar>
+                    <aqb-canvas query-builder="@Model"></aqb-canvas>
+                    <status-bar query-builder="@Model"></status-bar>
+                    <grid query-builder="@Model"></grid>
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                <sql-editor query-builder="@Model" target-query-part="UnionSubQuery"></sql-editor>
+            </div>
+        </div>
+    </div>
+</div>

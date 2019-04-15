@@ -1,0 +1,24 @@
+﻿<configuration>
+  <!-- Active Query Builder settings section -->
+  <aspQueryBuilder>
+    <!-- properties of the QueryBuilder component -->
+    <common>
+      <httpCompression>true</httpCompression>
+      <persistentConnection>false</persistentConnection>
+    </common>
+    <syntaxProvider>
+      <type>ActiveQueryBuilder.Core.DB2SyntaxProvider, ActiveQueryBuilder.Core</type> <!-- the necessary tag -->
+    </syntaxProvider>
+    <!--<metadataProvider>
+      <type>ActiveQueryBuilder.Core.MSSQLMetadataProvider, ActiveQueryBuilder.MSSQLMetadataProvider</type> only needed in case of live database connection
+    </metadataProvider>-->
+    <metadataSource>
+      <xml>db2_sample_with_alt_names.xml</xml><!-- xml attribute: Absolute path to your metadata file -->
+      <!-- You can setup live database connection instead. Remove the xml attribute, uncomment the following line and specify correct connection string for your environment. -->
+      <!--<dbConnection>
+        <type>System.Data.SqlClient.SqlConnection, System.Data</type>
+        <connectionString>data source=.\sqlexpress; integrated security=true</connectionString>
+      </dbConnection>-->
+    </metadataSource>
+    </aspQueryBuilder>
+</configuration>

@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Cross Domain Query Demo";
+}
+
+<div class="jumbotron">
+    <h1>Active Query Builder</h1>
+    <p class="lead">Active Query Builder is a visual SQL query builder component with powerful API to parse, analyze, and modify SQL queries.</p>
+    <p><a href="https://www.activequerybuilder.com/" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Cross-domain QueryBuilder Request Demo</h1>
+        <h3>
+            Hosting HTTP and Active Query Builder handlers on different servers.
+        </h3>
+        <p>To run this demo, run two web servers:</p>
+        <ul>
+            <li>Server A: ASP.NET server running this demo project.</li>
+            <li>Server B: Simple HTTP server returning the <code>./FrontEnd/index.html</code> page.</li>
+        </ul>
+        <ol>
+            <li>
+                <p>Run the server A.</p>
+            </li>
+            <li>
+                <p>Run the server B.<br>
+                    This might be any static HTTP server, for example <a href="https://www.npmjs.com/package/static-server">https://www.npmjs.com/package/static-server</a></p>
+                <p>In the <code>index.html</code> file, specify the <em>host address of the server A</em> via the <strong>AQB.Web.host</strong> property.</p>
+            </li>
+            <li>
+                <p>Run the browser and open the <code>/index.html</code> page from server B.</p>
+            </li>
+        </ol>    </div>
+</div>

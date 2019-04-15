@@ -1,0 +1,295 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>Active Query Builder</h1>
+        <p class="lead">Active Query Builder is a visual SQL query builder component with powerful API to parse, analyze, and modify SQL queries.</p>
+        <p><a href="https://www.activequerybuilder.com/" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">Basic Demos</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <span class="label label-info" style="float: right;">Default</span>
+            <h3>ODBC Connection</h3>
+            <p>Loading metadata from live database.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "SimpleODBCDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <span class="label label-info" style="float: right;">Bootstrap</span>
+            <h3>Offline Demo</h3>
+            <p>Loading metadata from the pre-generated XML file.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "SimpleOfflineDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <span class="label label-info" style="float: right;">JqueryUI</span>
+            <h3>Display Query Results</h3>
+            <p>Displaying SQL query results and modifying SQL queries while browsing the data.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "QueryResultsDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Html Helpers Demo</h3>
+            <p></p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "HtmlHelpersDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Tag Helpers Demo</h3>
+            <p></p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "TagHelpersDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>JavaScript Rendering Demo</h3>
+            <p></p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "JavaScriptRenderingDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>XML or JSON</h3>
+            <p>XML or JSON configuration</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "CreateFromConfigDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        //CUT:STD{{
+        <div class="col-md-4">
+            <span class="label label-danger" style="float: right;">Pro</span>
+            <h3>Edit Sub-Query Text</h3>
+            <p>Edit the Sub-query text and preview results as if it was a standalone query.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "SubQueryResultsPreviewDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        //}}CUT:STD
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">Designing a user-friendly query building environment</h2>
+            <p>Defining friendly names for database objects and fields, adding meaningful objects, customizing database schema tree.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <span class="label label-info" style="float: right;">Foundation</span>
+            <h3>Alternate Names</h3>
+            <p>Active Query Builder lets substitute unreadable names for user-friendly aliases.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "AlternateNames")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Virtual Objects And Fields</h3>
+            <p>Add meaningful objects acting like views and friendly calculated or lookup fields to your database schema view.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "VirtualObjectsAndFields")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Custom Metadata Structure</h3>
+            <p>Customize your Database Schema View the way you like: group objects by subject area, define folders with favorite objects, etc.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "MetadataStructure")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Toggling Usage of Alternate Names</h3>
+            <p>User can see and edit SQL text with both alternate and real object names.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "ToggleUseAltNames")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+    
+    //CUT:STD{{
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">User-defined Queries and Fields</h2>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <span class="label label-danger" style="float: right;">Pro</span>
+            <h3>User-defined Queries</h3>
+            <p>Users can save their queries and use them as data sources in subsequent queries.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "SaveAndLoadUserQueries")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <span class="label label-danger" style="float: right;">Pro</span>
+            <h3>User-defined Fields</h3>
+            <p>Let advanced users create own calculated fields.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "UserDefinedFields")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+
+    //}}CUT:STD
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">User Interface Customizations</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>SQL Syntax Highlighting</h3>
+            <p>Highlight SQL syntax using a third-party SQL text editor.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "SQLSyntaxHighlighting")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Bootstrap Theming</h3>
+            <p>Apply any Bootstrap theme to Active Query Builder UI.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "BootstrapTheming")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>jQueryUI Theming</h3>
+            <p>Apply any jQueryUI skin to Active Query Builder UI.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "JQueryUITheming")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Work without the Design Pane</h3>
+            <p>Build queries without the design pane by dragging fields right to the Query Columns List.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "NoDesignArea")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">Metadata Loading</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Load Metadata Demo</h3>
+            <p>Four ways to fill the Metadata Container programatically.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "LoadMetadataDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Switch Database Connections</h3>
+            <p>Switching between different database connections at run time.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "ChangeConnection")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Switch Database Connections using Partial Views</h3>
+            <p>Using partial views to implement deffered load and explicit release of the component. You'd better do this using the AQB JavaScript API - see the "Deferred Load and Explicit Release" demo below.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("WithPartiaView", "ChangeConnection")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">SQL Query Analysis and Modification</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Query Analysis</h3>
+            <p>Explore the internal query object model, get summary information about the query.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "QueryAnalysis")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Query Modification</h3>
+            <p>Modify SQL queries programmatically.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "QueryModificationDemo")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">Advanced Programming Tasks</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Handle Query Building Events</h3>
+            <p>Performing specific actions in the process of building a SQL query.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "ClientEventHandle")">Run &raquo;</a>
+            </p>
+        </div>
+        //CUT:STD{{
+        <div class="col-md-4">
+            <span class="label label-danger" style="float: right;">Pro</span>
+            <h3>Handle User-defined Queries Events</h3>
+            <p>Performing specific actions in the process of working with user-defined queries.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "ClientEventHandleUQ")">Run &raquo;</a>
+            </p>
+        </div>
+        //}}CUT:STD
+        <div class="col-md-4">
+            <h3>Custom HTML Layout Definition</h3>
+            <p>Applying alternate (mobile-friendly) HTML layout instead of the predefined embedded layout.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Index", "MobileDemo")">Run &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Deferred Load and Explicit Release</h3>
+            <p>Loading and releasing of the component on client and server via JavaScript API.</p>
+            <p>
+                <a class="btn btn-default" href="@Url.Action("Defered", "SimpleOfflineDemo")">Run &raquo;</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+//CUT:PRO{{
+@section scripts
+{
+    <script>
+        $('a.btn').click(function (e) {
+            e.preventDefault();
+            var href = this.href;
+
+            $.ajax({
+                url: '/Home/DisposeStates',
+                success: function () {
+                    window.location.href = href;
+                }
+            });
+        });
+    </script>
+}
+//}}CUT:PRO

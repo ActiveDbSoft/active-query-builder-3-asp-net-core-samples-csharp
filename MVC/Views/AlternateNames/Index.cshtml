@@ -1,0 +1,128 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Alternate Names Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<link type="text/css" rel="stylesheet" href="./css/foundation.min.css" />
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Alternate Names Demo</h1>
+        <p>Active Query Builder lets substitute unreadable names for user-friendly aliases.</p>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="ui-widget">
+            <div class="ui-widget-header alternate-header">
+                <span>Query text with alternate object names</span>
+            </div>
+            <div class="ui-dialog-content ui-widget-content alternate-sql">
+                <textarea></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="ui-widget">
+            <div class="ui-widget-header alternate-header">
+                <span>Query text without alternate object names</span>
+            </div>
+            <div class="ui-dialog-content ui-widget-content alternate-sql">
+                <textarea></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .alternate-sql textarea {
+        max-width: 100%;
+        width: 100%;
+        height: 250px;
+    }
+
+    .alternate-header {
+        padding: 5px 10px;
+    }
+</style>
+
+@section scripts
+    {
+    <style>
+        .card-divider {
+            background: #0c3e5f;
+            color: white;
+        }
+
+        .cornerAll {
+            border-radius: 5px;
+        }
+
+        .cornerTop {
+            border-radius: 5px 5px 0 0;
+        }
+
+        .cornerBottom {
+            border-radius: 0 0 5px 5px;
+        }
+
+        .subquery {
+            top: 1px
+        }
+    </style>
+
+    <script>
+        AQB.Web.theme = {
+            widget: 'card',
+            header: 'card-divider',
+            content: 'card-section',
+            button: 'button',
+            buttonEnabled: 'primary',
+            buttonDisabled: 'disabled',
+            active: 'button hollow',
+            hover: 'hollow',
+            cornerAll: 'cornerAll',
+            cornerTop: 'cornerTop',
+            cornerBottom: 'cornerBottom'
+        }
+
+        $(function () {
+            AQB.Web.onQueryBuilderReady(function () {
+                AQB.Web.Core.on(AQB.Web.Core.Events.UserDataReceived, onUserDataReceived);
+            });
+
+
+            function onUserDataReceived(data) {
+                $('.alternate-sql textarea').eq(0).val(data.AlternateSQL);
+                $('.alternate-sql textarea').eq(1).val(data.SQL);
+            };
+        });
+    </script>
+}

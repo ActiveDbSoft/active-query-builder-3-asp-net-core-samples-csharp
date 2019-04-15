@@ -1,0 +1,307 @@
+﻿@{
+    ViewBag.Title = "Display Query Results Demo";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Display Query Results Demo</h1>
+        <p>Displaying SQL query results and modifying SQL queries while browsing the data.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <a href="#" class="btn btn-primary" onclick="loadQuery('artist');">Artist</a>
+        <a href="#" class="btn btn-primary"  onclick="loadQuery('track');">Track</a>
+    </div>
+</div>
+<div id="main-tabs" class="block-flat">
+    <ul>
+        <li><a href="#qb">Query Builder</a></li>
+        <li><a href="#qr">Query Results</a></li>
+    </ul>
+    <div class="row" id="qb">
+        <div class="col-md-12">
+            <div id="query-builder"></div>
+            <div class="qb-ui-layout">
+                <div class="qb-ui-layout__top">
+                    <div class="qb-ui-layout__left">
+                        <div class="qb-ui-structure-tabs">
+                            <div class="qb-ui-structure-tabs__tab">
+                                <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                                <label for="tree-tab">Database</label>
+                                <div class="qb-ui-structure-tabs__content">
+                                    <div id="tree-view"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qb-ui-layout__right">
+                        <div id="navbar"></div>
+                        <div id="query-builder-canvas"></div>
+                        <div id="statusbar"></div>
+                        <div id="grid"></div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__bottom">
+                    <div id="sql-editor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="qr">
+        <div class="col-md-3">
+            <table class="table table-striped table-params">
+                <thead>
+                    <tr>
+                        <th scope="col">Parameter</th>
+                        <th scope="col">Value</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary execute">Apply</button>
+        </div>
+        <div class="col-md-12">
+            <div id="criteria-builder"></div>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-danger"></div>
+            <a class="link-to-grid-site" href="http://js-grid.com">http://js-grid.com</a>
+            <div id="jsgrid"></div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+    <style>
+        #main-tabs {
+            margin-top: 5px;     
+        }
+        
+        #qb, #qr {
+            padding: 5px;
+        }
+
+        #jsoneditor {
+            height: 500px;
+        }
+
+        .link-to-grid-site {
+            float: right;
+            color: blue !important;
+        }
+
+        .jsonPage {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .execute, .alert-danger {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <script src="./aqb.client.js"></script>
+    
+    <script>
+        // Instance identifier string to bind to the QueryBiulder component on the server side. See the CreateQueryBuilderController.cs code for details.
+        var instanceId = 'QueryResults';
+
+        $(function () {
+            AQB.Web.UI.QueryBuilder(instanceId, $('#query-builder'));
+            AQB.Web.UI.ObjectTreeView(instanceId, $('#tree-view'));
+            AQB.Web.UI.SubQueryNavigationBar(instanceId, $('#navbar'));
+            AQB.Web.UI.Canvas(instanceId, $('#query-builder-canvas'));
+            AQB.Web.UI.StatusBar(instanceId, $('#statusbar'));
+            AQB.Web.UI.Grid(instanceId, $('#grid'), { orColumnCount: 0 });
+            AQB.Web.UI.SqlEditor(instanceId, $('#sql-editor'));
+            AQB.Web.UI.CriteriaBuilder(instanceId, $('#criteria-builder'));
+
+            AQB.Web.UI.startApplication(instanceId);
+
+            $('#main-tabs').tabs();
+            $('#second-tabs').tabs();
+            $('[href="#qr"]').click(onOpenQueryResults);
+            AQB.Web.onCriteriaBuilderReady(subscribeToChanges);
+        });
+
+        function onOpenQueryResults() {
+            var cb = AQB.Web.CriteriaBuilderContainer.first();
+
+            onCriteriaBuilderChanged(cb,
+                function () {
+                    var params = getUniqueQueryParams();
+                    clearParams();
+
+                    if (params.length) {
+                        $("#jsgrid").jsGrid('destroy');
+                        createParams(params);
+                    } else {
+                        createGrids();
+                    }
+                });
+        };
+
+        function subscribeToChanges(cb) {
+            cb.loadColumns();
+
+            cb.on(cb.Events.CriteriaBuilderChanged,
+                function () {
+                    onCriteriaBuilderChanged(cb, updateGrids);
+                });
+        }
+
+        function onCriteriaBuilderChanged(cb, callback) {
+            cb.transformSql(function (sql) {
+                $('.sql').text(sql);
+                callback();
+            });
+        }
+
+        function createParams(params) {
+            var table = $('.table-params tbody');
+
+            for (var i = 0; i < params.length; i++) {
+                var tr = $('<tr>');
+                var name = $('<td>' + params[i].FullName + '</td>');
+                var value = $('<td><input type="text" class="' + params[i].Name + '" /></td>');
+                tr.append(name).append(value);
+                table.append(tr);
+            }
+
+            $('.table-params').show();
+            $('.execute').show();
+        }
+
+        function clearParams() {
+            $('.table-params tbody').empty();
+            $('.execute').hide();
+            $('.table-params').hide();
+        }
+
+        function getParams() {
+            var result = [];
+            var params = getUniqueQueryParams();
+
+            for (var i = 0; i < params.length; i++) {
+                result.push({
+                    Name: params[i].FullName,
+                    Value: $('input.' + params[i].Name).val()
+                });
+            }
+
+            return result;
+        }
+
+        function updateGrids() {
+            $('.alert-danger').hide();
+            datagrid.jsGrid();
+        }
+
+        function createGrids() {
+            $('.alert-danger').hide();
+            var cb = AQB.Web.CriteriaBuilder;
+
+            var columns = cb.Columns.map(function (c) {
+                return {
+                    key: c.ResultName,
+                    name: c.ResultName,
+                    text: c.ResultName,
+                    datafield: c.ResultName
+                }
+            });
+            
+            createJsGrid(columns);
+        }
+
+        function createJsGrid(columns) {
+            window.datagrid = $("#jsgrid").jsGrid({
+                width: "100%",
+                height: "400px",
+                sorting: true,
+                paging: true,
+                pageLoading: true,
+                pageSize: 10,
+                autoload: true,
+                fields: columns,
+                controller: {
+                    loadData: function (filter) {
+                        var d = $.Deferred();
+
+                        $.ajax({
+                            url: 'QueryResultsDemo/GetData',
+                            type: 'POST',
+                            contentType: 'application/json;',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                pagenum: filter.pageIndex - 1,
+                                pagesize: filter.pageSize,
+                                sortdatafield: filter.sortField,
+                                sortorder: filter.sortOrder,
+                                params: getParams()
+                            })
+                        }).done(function (res) {
+                            d.resolve({
+                                data: res,
+                                itemsCount: 9999999
+                            });
+                        }).fail(errorCallback);
+
+                        return d.promise();
+                    }
+                }
+            });
+
+            $('jsgrid-header-cell').click(function () {
+                var field = this.innerText;
+                $("#jsgrid").jsGrid("sort", field);
+            });
+        }
+
+        $('.execute').click(function () {
+            if (window.datagrid)
+                updateGrids();
+            else
+                createGrids();
+        });
+
+        function errorCallback(xhr, error, statusText) {
+            $('.alert-danger').show().text(statusText);
+        }
+
+        function loadQuery(name) {
+            $.ajax({
+                url: 'QueryResultsDemo/LoadQuery',
+                type: 'POST',
+                data: {
+                    query: name
+                }
+            }).done(function () {
+                AQB.Web.QueryBuilder.update();
+            }).fail(errorCallback);
+        }
+
+        function getUniqueQueryParams() {
+            var params = AQB.Web.QueryBuilder.queryParams;
+            var result = [];
+
+            for (var i = 0, l = params.length; i < l; i++) {
+                var param = params[i];
+
+                if (result.find(r => r.FullName === param.FullName) == null)
+                    result.push(param);
+            }
+
+            return result;
+        }
+    </script>
+}

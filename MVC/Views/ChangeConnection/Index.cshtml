@@ -1,0 +1,71 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@using ActiveQueryBuilder.Core.QueryTransformer
+@using ActiveQueryBuilder.View.QueryView
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Switch Database Connections Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Switch Database Connections Demo</h1>
+        <p>Switching between different database connections at run time.</p>
+        <div>
+            <h3 style="display: inline">Connect to:</h3>
+            <button class="change">NorthwindXmlMetaData</button>
+            <button class="change">Db2XmlMetaData</button>
+            <button class="change">SQLite</button>
+        </div>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        $('.change').click(function () {
+
+            $('.change').prop('disabled', true);
+
+            $.ajax({
+                type: 'POST',
+                url: '/ChangeConnection/Change',
+                data: {
+                    name: this.innerText
+                },
+                success: function () {
+                    AQB.Web.QueryBuilder.fullUpdate(function () {
+                        $('.change').prop('disabled', false);
+                    });
+                }
+            });
+        });
+    </script>
+}

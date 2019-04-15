@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "Double Client Rendering Demo";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Double Client Rendering Demo</h1>
+        <p>
+            This sample demonstrates usage of several visual query builders in separate modal windows on the same page.
+        </p>
+        <p>
+            Click on appropriate buttons to display different instances of Active Query Builder.<br />
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NothwindModal">NothwindModal</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Db2Modal">Db2</button>
+        </p>
+    </div>
+    <div class="col-md-12">
+
+        <div class="modal" id="NothwindModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nothwind</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="qb1"></div>
+                        <div class="qb-ui-layout">
+                            <div class="qb-ui-layout__top">
+                                <div class="qb-ui-layout__left">
+                                    <div class="qb-ui-structure-tabs">
+                                        <div class="qb-ui-structure-tabs__tab">
+                                            <input type="radio" id="tree-tab1" name="qb-tabs1" checked />
+                                            <label for="tree-tab1">Database</label>
+                                            <div class="qb-ui-structure-tabs__content">
+                                                <div id="treeview1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qb-ui-layout__right">
+                                    <div id="navbar1"></div>
+                                    <div id="canvas1"></div>
+                                    <div id="statusbar1"></div>
+                                    <div id="grid1"></div>
+                                </div>
+                            </div>
+                            <div class="qb-ui-layout__bottom">
+                                <div id="sql1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="Db2Modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Db2</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="qb2"></div>
+                        <div class="qb-ui-layout">
+                            <div class="qb-ui-layout__top">
+                                <div class="qb-ui-layout__left">
+                                    <div class="qb-ui-structure-tabs">
+                                        <div class="qb-ui-structure-tabs__tab">
+                                            <input type="radio" id="tree-tab2" name="qb-tabs2" checked />
+                                            <label for="tree-tab2">Database</label>
+                                            <div class="qb-ui-structure-tabs__content">
+                                                <div id="treeview2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qb-ui-layout__right">
+                                    <div id="navbar2"></div>
+                                    <div id="canvas2"></div>
+                                    <div id="statusbar2"></div>
+                                    <div id="grid2"></div>
+                                </div>
+                            </div>
+                            <div class="qb-ui-layout__bottom">
+                                <div id="sql2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="aqb.client.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        // Instance identifier string to bind to the QueryBiulder component on the server side. See the DoubleClientRenderingController.cs code for details.
+        var instanceId1 = 'FirstClient';
+        var instanceId2 = 'SecondClient';
+
+        $(function () {
+            AQB.Web.UI.QueryBuilder(instanceId1, $('#qb1'));
+            AQB.Web.UI.ObjectTreeView(instanceId1, $('#treeview1'));
+            AQB.Web.UI.SubQueryNavigationBar(instanceId1, $('#navbar1'));
+            AQB.Web.UI.Canvas(instanceId1, $('#canvas1'));
+            AQB.Web.UI.StatusBar(instanceId1, $('#statusbar1'));
+            AQB.Web.UI.Grid(instanceId1, $('#grid1'));
+            AQB.Web.UI.SqlEditor(instanceId1, $('#sql1'));
+
+            AQB.Web.UI.QueryBuilder(instanceId2, $('#qb2'));
+            AQB.Web.UI.ObjectTreeView(instanceId2, $('#treeview2'));
+            AQB.Web.UI.SubQueryNavigationBar(instanceId2, $('#navbar2'));
+            AQB.Web.UI.Canvas(instanceId2, $('#canvas2'));
+            AQB.Web.UI.StatusBar(instanceId2, $('#statusbar2'));
+            AQB.Web.UI.Grid(instanceId2, $('#grid2'));
+            AQB.Web.UI.SqlEditor(instanceId2, $('#sql2'));
+
+            AQB.Web.UI.startApplication();
+        });
+    </script>
+}
+
+@section styles
+{
+    <style>
+        .modal-dialog {
+            width: 90% !important;
+        }
+    </style>
+}

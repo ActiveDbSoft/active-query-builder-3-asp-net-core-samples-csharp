@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="qb"></div>
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                <div id="treeview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    <div id="navbar"></div>
+                    <div id="canvas"></div>
+                    <div id="statusbar"></div>
+                    <div id="grid"></div>
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                <div id="sql"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="./aqb.client.js"></script>
+
+    <script>
+        AQB.Web.UI.QueryBuilder('', $('#qb'));
+        AQB.Web.UI.ObjectTreeView('', $('#treeview'));
+        AQB.Web.UI.SubQueryNavigationBar('', $('#navbar'));
+        AQB.Web.UI.Canvas('', $('#canvas'));
+        AQB.Web.UI.StatusBar('', $('#statusbar'));
+        AQB.Web.UI.Grid('', $('#grid'), { orColumnCount: 0 });
+        AQB.Web.UI.SqlEditor('', $('#sql'));
+
+        AQB.Web.UI.startApplication();
+    </script>
+}

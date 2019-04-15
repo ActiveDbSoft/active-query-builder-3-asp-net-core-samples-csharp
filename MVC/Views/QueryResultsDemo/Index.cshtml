@@ -1,0 +1,574 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@using ActiveQueryBuilder.Core.QueryTransformer
+@using ActiveQueryBuilder.View.QueryView
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Display Query Results Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Display Query Results Demo</h1>
+        <p>Displaying SQL query results and modifying SQL queries while browsing the data.</p>
+    </div>
+</div>
+<div id="main-tabs" class="block-flat">
+    <ul>
+        <li><a href="#qb">Query Builder</a></li>
+        <li><a href="#qr">Query Results</a></li>
+    </ul>
+    <div class="row" id="qb">
+        <div class="col-md-12">
+            @controls.GetHtml()
+            <div class="qb-ui-layout">
+                <div class="qb-ui-layout__top">
+                    <div class="qb-ui-layout__left">
+                        <div class="qb-ui-structure-tabs">
+                            <div class="qb-ui-structure-tabs__tab">
+                                <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                                <label for="tree-tab">Database</label>
+                                <div class="qb-ui-structure-tabs__content">
+                                    @controls.ObjectTreeView().GetHtml()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qb-ui-layout__right">
+                        @controls.SubQueryNavigationBar().GetHtml()
+                        @controls.Canvas().GetHtml()
+                        @controls.StatusBar().GetHtml()
+                        @controls.Grid(s => s.UseCustomExpressionBuilder = AffectedColumns.ExpressionColumn).GetHtml()
+                    </div>
+                </div>
+                <div class="qb-ui-layout__bottom">
+                    @controls.SqlEditor().GetHtml()
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="qr">
+        <div class="col-md-3">
+            <table class="table table-striped table-params">
+                <thead>
+                <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary execute">Apply</button>
+        </div>
+        <div class="col-md-12">
+            @Html.CriteriaBuilder((QueryTransformer)ViewBag.QueryTransformer).GetHtml()
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-danger"></div>
+            <div id="second-tabs" class="block-flat">
+                <ul>
+                    <li><a href="#jx">JqxGrid</a></li>
+                    <li><a href="#js">JsGrid</a></li>
+                    <li><a href="#rg">ReactDataGrid</a></li>
+                    <li><a href="#je">JsonEditor</a></li>
+                    <li><a href="#ur">Your implementation</a></li>
+                </ul>
+                <div id="jx">
+                    <a class="link-to-grid-site" href="https://www.jqwidgets.com">https://www.jqwidgets.com</a>
+                    <div id="jqxgrid"></div>
+                </div>
+                <div id="js">
+                    <a class="link-to-grid-site" href="http://js-grid.com">http://js-grid.com</a>
+                    <div id="jsgrid"></div>
+                </div>
+                <div id="rg">
+                    <a class="link-to-grid-site" href="http://adazzle.github.io/react-data-grid">http://adazzle.github.io/react-data-grid</a>
+                    <div id="reactgrid"></div>
+                </div>
+                <div id="je">
+                    <a class="link-to-grid-site" href="https://github.com/josdejong/jsoneditor">https://github.com/josdejong/jsoneditor</a>
+                    <br/>
+                    <div id="jsoneditor"></div>
+                    <button class="prev">Prev</button>
+                    <span>Page:<span class="jsonPage"></span></span>
+                    <button class="next">Next</button>
+                </div>
+                <div id="ur">
+                    <span>Use this transformed query for your own implementation:</span>
+                    <br/>
+                    <span class="sql"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.11.0/jsoneditor.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.css" />
+
+    <style>
+        #qb, #qr {
+            padding: 5px;
+        }
+
+        #jsoneditor {
+            height: 500px;
+        }
+
+        .link-to-grid-site {
+            float: right;
+            color: blue !important;
+        }
+
+        .jsonPage {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .execute, .alert-danger {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://jqwidgets.com/public/jqwidgets/jqx-all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.1/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-data-grid/2.0.78/react-data-grid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.11.0/jsoneditor.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/mode/sql/sql.min.js"></script>
+
+    <script>
+        var dataUrl = "QueryResultsDemo/GetData";
+
+        $(function() {
+            $('#main-tabs').tabs();
+            $('#second-tabs').tabs();
+            $('[href="#qr"]').click(onOpenQueryResults);
+            $('.next').button().click(function() { fillJsonEditor(fillJsonEditor.page + 1); });
+            $('.prev').button().click(function() { fillJsonEditor(fillJsonEditor.page - 1); });
+            AQB.Web.onCriteriaBuilderReady(subscribeToChanges);
+            AQB.Web.onQueryBuilderReady(createExpressionEditor);
+        });
+
+        function onOpenQueryResults() {
+            var cb = AQB.Web.CriteriaBuilderContainer.first();
+
+            onCriteriaBuilderChanged(cb,
+                function() {
+                    var params = getUniqueQueryParams();
+                    clearParams();
+
+                    if (params.length) {
+                        if (fillJsonEditor.editor) {
+                            $("#jqxgrid").jqxGrid('clear');
+                            $("#jsgrid").jsGrid('destroy');
+                            ReactDOM.unmountComponentAtNode(document.getElementById('reactgrid'));
+                            fillJsonEditor.editor.destroy();
+                            fillJsonEditor.editor = undefined;
+                        }
+                        createParams(params);
+                    } else {
+                        createGrids();
+                    }
+                });
+        };
+
+        function subscribeToChanges(cb) {
+            cb.loadColumns();
+
+            cb.on(cb.Events.CriteriaBuilderChanged,
+                function() {
+                    onCriteriaBuilderChanged(cb, updateGrids);
+                });
+        }
+
+        function onCriteriaBuilderChanged(cb, callback) {
+            cb.transformSql(function(sql) {
+                $('.sql').text(sql);
+                callback();
+            });
+        }
+
+        function createGrids() {
+            $('.alert-danger').hide();
+            var cb = AQB.Web.CriteriaBuilderContainer.first();
+
+            var columns = cb.Columns.map(function(c) {
+                return {
+                    key: c.ResultName,
+                    name: c.ResultName,
+                    text: c.ResultName,
+                    datafield: c.ResultName
+                }
+            });
+
+            createJqxGrid(columns);
+            createJsGrid(columns);
+            createReactGrid(columns);
+            fillJsonEditor(0);
+        }
+
+        function updateGrids() {
+            $('.alert-danger').hide();
+            dataAdapter.dataBind();
+            jsgrid.jsGrid();
+            reactGrid.updateRows();
+            fillJsonEditor(0);
+        }
+
+        function createJqxGrid(columns) {
+            var source = {
+                type: 'POST',
+                contentType: 'application/json;',
+                datatype: 'json',
+                url: dataUrl,
+                formatData: function(data) {
+                    data.params = getParams();
+                    return JSON.stringify(data);
+                },
+                loadError: errorCallback,
+                sort: function () {
+                    $("#jqxgrid").jqxGrid('updatebounddata');
+                },
+                datafields: columns.map(function(c) {
+                    return { name: c.Name }
+                }),
+                totalrecords: 9999999
+            };
+
+            window.dataAdapter = new $.jqx.dataAdapter(source);
+
+            try {
+                $("#jqxgrid").jqxGrid({
+                    width: '100%',
+                    source: dataAdapter,
+                    pageable: true,
+                    sortable: true,
+                    virtualmode: true,
+                    rendergridrows: function() {
+                        return dataAdapter.loadedData;
+                    },
+                    columns: columns
+                });
+            } catch (ex) {
+
+            }
+        }
+
+        function createReactGrid(columns) {
+            ReactDOM.unmountComponentAtNode(document.getElementById('reactgrid'));
+
+            getData(init, 0);
+
+            function getData(callback, pageNum, sortField, sortOrder) {
+                $.ajax({
+                    url: dataUrl,
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        pagenum: pageNum,
+                        pagesize: 10,
+                        sortdatafield: sortField,
+                        sortorder: sortOrder,
+                        params: getParams()
+                    }),
+                    success: callback,
+                    error: errorCallback
+                });
+            }
+
+            function init(data) {
+                var Grid = React.createClass({
+                    getInitialState() {
+                        this._columns = columns.map(function(c) {
+                            c.sortable = true;
+                            c.width = 300;
+                            return c;
+                        });
+
+                        return { rows: data, page: 0 };
+                    },
+
+                    sort(field, order) {
+                        getData(function(data) {
+                                this.setState({ rows: data });
+                            }.bind(this),
+                            this.state.page,
+                            field,
+                            order !== 'NONE' ? order : undefined);
+
+                        this.setState({ field: field, order: order });
+                    },
+
+                    page(page) {
+                        getData(function(data) {
+                                this.setState({ rows: data });
+                            }.bind(this),
+                            page,
+                            this.state.field,
+                            this.state.order !== 'NONE' ? this.state.order : undefined);
+
+                        this.setState({ page: page });
+                    },
+
+                    updateRows() {
+                        getData(function(data) {
+                                this.setState({ rows: data });
+                            }.bind(this),
+                            this.state.page,
+                            this.state.field,
+                            this.state.order !== 'NONE' ? this.state.order : undefined);
+                    },
+
+                    prevPage() {
+                        this.page(this.state.page - 1);
+                    },
+
+                    nextPage() {
+                        this.page(this.state.page + 1);
+                    },
+
+                    rowGetter(i) {
+                        return this.state.rows[i];
+                    },
+
+                    render() {
+                        return React.createElement('div',
+                            null,
+                            [
+                                React.createElement(ReactDataGrid,
+                                    {
+                                        onGridSort: this.sort,
+                                        columns: this._columns,
+                                        rowGetter: this.rowGetter,
+                                        rowsCount: this.state.rows.length,
+                                        minHeight: 500
+                                    }),
+                                React.createElement('span', { onClick: this.prevPage }, ['prev ']),
+                                React.createElement('span', { onClick: this.nextPage }, [' next'])
+                            ]);
+                    }
+                });
+
+                var gridElem = React.createElement(Grid);
+                window.reactGrid = ReactDOM.render(gridElem, document.getElementById('reactgrid'));
+            }
+        }
+
+        function createJsGrid(columns) {
+            window.jsgrid = $("#jsgrid").jsGrid({
+                width: "100%",
+                height: "400px",
+                sorting: true,
+                paging: true,
+                pageLoading: true,
+                pageSize: 10,
+                autoload: true,
+                fields: columns,
+                controller: {
+                    loadData: function(filter) {
+                        var d = $.Deferred();
+
+                        $.ajax({
+                            url: dataUrl,
+                            type: 'POST',
+                            contentType: 'application/json;',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                pagenum: filter.pageIndex - 1,
+                                pagesize: filter.pageSize,
+                                sortdatafield: filter.sortField,
+                                sortorder: filter.sortOrder,
+                                params: getParams()
+                            })
+                        }).done(function(res) {
+                            d.resolve({
+                                data: res,
+                                itemsCount: 9999999
+                            });
+                        }).fail(errorCallback);
+
+                        return d.promise();
+                    }
+                }
+            });
+
+            $('jsgrid-header-cell').click(function() {
+                var field = this.innerText;
+                $("#jsgrid").jsGrid("sort", field);
+            });
+        }
+
+        function fillJsonEditor(page) {
+            if (page < 0)
+                return;
+
+            fillJsonEditor.page = page;
+
+            $('.jsonPage').text(page);
+
+            if (!fillJsonEditor.editor) {
+                var container = document.getElementById('jsoneditor');
+                fillJsonEditor.editor = new JSONEditor(container, { mode: 'code' });
+            }
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                data: JSON.stringify({
+                    pagenum: page,
+                    pagesize: 10,
+                    params: getParams()
+                }),
+                url: dataUrl,
+                success: function(data) {
+                    fillJsonEditor.editor.set(data);
+                },
+                error: errorCallback
+            });
+        }
+
+        function createParams(params) {
+            var table = $('.table-params tbody');
+
+            for (var i = 0; i < params.length; i++) {
+                var tr = $('<tr>');
+                var name = $('<td>' + params[i].FullName + '</td>');
+                var value = $('<td><input type="text" class="' + params[i].Name + '" /></td>');
+                tr.append(name).append(value);
+                table.append(tr);
+            }
+
+            $('.table-params').show();
+            $('.execute').show();
+        }
+
+        function clearParams() {
+            $('.table-params tbody').empty();
+            $('.execute').hide();
+            $('.table-params').hide();
+        }
+
+        function getParams() {
+            var result = [];
+            var params = getUniqueQueryParams();
+
+            for (var i = 0; i < params.length; i++) {
+                result.push({
+                    Name: params[i].FullName,
+                    Value: $('input.' + params[i].Name).val()
+                });
+            }
+
+            return result;
+        }
+
+        $('.execute').click(function() {
+            if (fillJsonEditor.editor)
+                updateGrids();
+            else
+                createGrids();
+        });
+
+        function errorCallback(xhr, error, statusText) {
+            $('.alert-danger').show().text(statusText);
+        }
+
+        function createExpressionEditor(qb) {
+            window.codeMirror = CodeMirror(document.body, {
+                mode: 'text/x-sql',
+                indentWithTabs: true,
+                smartIndent: true,
+                lineNumbers: true,
+                matchBrackets: true,
+                width: '500px',
+                height: '250px'
+            });
+
+            qb.GridComponent.on(AQB.Web.QueryBuilder.GridComponent.Events.GridBeforeCustomEditCell, BeforeCustomEditCell);
+        }
+
+        function BeforeCustomEditCell(data) {
+            var row = data.row;
+            var cell = data.cell;
+
+            var error = $('<p class="ui-state-error" style="display: none;"></div>');
+
+            var $dialog = $('<div>').dialog({
+                modal: true,
+                width: 'auto',
+                title: 'Custom expression editor',
+                buttons: [{
+                    text: "OK",
+                    click: function () {
+                        var newValue = codeMirror.getValue();
+
+                        var ifValid = function () {
+                            cell.updateValue(newValue);
+                            $dialog.dialog("close");
+                        }
+
+                        var ifNotValid = function (message) {
+                            error.html(message).show();
+                        }
+
+                        validate(newValue, ifValid, ifNotValid);
+                    }
+                }, {
+                    text: "Cancel",
+                    click: function () {
+                        $dialog.dialog("close");
+                    }
+                }
+                ]
+            });
+
+            $dialog.append(error, $('.CodeMirror'));
+            $dialog.parent().css({
+                top: '25%',
+                left: '30%',
+                width: 600
+            });
+
+            codeMirror.setValue(row.FormattedExpression || '');
+            codeMirror.refresh();
+        };
+
+        function validate(expression, ifValid, ifNotValid) {
+            AQB.Web.QueryBuilder.validateExpression(expression, function (isValid, message) {
+                if (isValid)
+                    ifValid();
+                else
+                    ifNotValid(message);
+            });
+        }
+
+        function getUniqueQueryParams() {
+            var params = AQB.Web.QueryBuilder.queryParams;
+            var result = [];
+
+            for (var i = 0, l = params.length; i < l; i++) {
+                var param = params[i];
+
+                if (result.find(r => r.FullName === param.FullName) == null)
+                    result.push(param);
+            }
+
+            return result;
+        }
+    </script>
+}

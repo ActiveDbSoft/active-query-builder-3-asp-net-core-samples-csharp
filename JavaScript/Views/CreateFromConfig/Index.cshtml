@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Create From Web.config Demo";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>JavaScript Client Rendering plus Query Builder initialization from the 'ActiveQueryBuilder.json' file Demo</h1>
+        <p>
+            This sample demonstrates creation of the controls by JavaScript on client-side and their binding to the server-side component.
+        </p>
+        <p>
+            Initialization parameters (syntax and metadata provider) are taken from the 'ActiveQueryBuilder.json' file.<br />
+            Important: Uncomment the "AddJsonFile("ActiveQueryBuilder.json")" method call to work with this demo
+        </p>
+        <p>
+            <button id="start" class="btn btn-default">Start Active Query Builder</button>
+        </p>
+    </div>
+    <div class="col-md-12">
+        <div id="qb"></div>
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                <div id="treeview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    <div id="navbar"></div>
+                    <div id="canvas"></div>
+                    <div id="statusbar"></div>
+                    <div id="grid"></div>
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                <div id="sql"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="aqb.client.js"></script>
+
+@section scripts
+{
+    <script>
+        // Instance identifier string to bind to the QueryBiulder component on the server side. See the CreateQueryBuilderController.cs code for details.
+        var instanceId = 'WebConfig';
+
+        $('#start').click(function () {
+            AQB.Web.UI.QueryBuilder(instanceId, $('#qb'));
+            AQB.Web.UI.ObjectTreeView(instanceId, $('#treeview'));
+            AQB.Web.UI.SubQueryNavigationBar(instanceId, $('#navbar'));
+            AQB.Web.UI.Canvas(instanceId, $('#canvas'));
+            AQB.Web.UI.StatusBar(instanceId, $('#statusbar'));
+            AQB.Web.UI.Grid(instanceId, $('#grid'));
+            AQB.Web.UI.SqlEditor(instanceId, $('#sql'));
+            $('#start').hide();
+
+            AQB.Web.UI.startApplication('/CreateFromConfig/Create', instanceId);
+        });
+    </script>
+}

@@ -1,0 +1,86 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "SQL Syntax Highlighting Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>SQL Syntax Highlighting Demo</h1>
+        <p>Highlight SQL syntax using a third-party SQL text editor.</p>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/mode/sql/sql.min.js"></script>
+    <script>
+        $(function () {
+            AQB.Web.onQueryBuilderReady(function (qb) {
+                var codeMirror = CodeMirror(document.body,
+                    {
+                        mode: 'text/x-sql',
+                        indentWithTabs: true,
+                        smartIndent: true,
+                        lineNumbers: true,
+                        matchBrackets: true
+                    });
+
+                qb.setEditor({
+                    element: document.querySelector('.CodeMirror'),
+                    getSql: function () {
+                        return codeMirror.getValue();
+                    },
+                    setSql: function (sql) {
+                        codeMirror.setValue(sql);
+                    },
+                    setCursorPosition: function (pos, col, line) {
+                        this.focus();
+                        codeMirror.setCursor(line - 1, col - 1, { scroll: true });
+                    },
+                    focus: function () {
+                        codeMirror.focus();
+                    },
+                    onChange: function (callback) {
+                        this.changeCallback = callback;
+                        codeMirror.on('change', this.changeCallback);
+                    },
+                    remove: function () {
+                        codeMirror.off('change', this.changeCallback);
+                        this.element.remove();
+                    }
+                });
+            });
+        });
+    </script>
+}

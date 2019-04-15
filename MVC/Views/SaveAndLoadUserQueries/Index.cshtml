@@ -1,0 +1,97 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "User-defined Queries Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+<div class="row">
+    <div class="col-md-12">
+        <h1>User-defined Queries Demo</h1>
+        <p>Users can save their queries and use them as data sources in subsequent queries.</p>
+        <button id="loader">Load from localStorage</button>
+    </div>
+    <div class="col-md-12">
+        <p>Note: Query creation, deletion and changing events are handled server-side. See the UserQueriesChanged method for details.</p>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="queries-tab" name="qb-tabs" />
+                            <label for="queries-tab">Queries</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.UserQueries().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        var key = "UserDefinedQueriesDemo";
+
+        function saveToLocalStorage() {
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/SaveAndLoadUserQueries/GetUserQueriesXml',
+                    success: function (xml) {
+                        localStorage.setItem(key, xml);
+                        loader.style.display = 'inline-block';
+                    }
+                });
+            }, 1000);
+        }
+
+        function loadFromLocalStorage() {
+            $.ajax({
+                type: 'POST',
+                url: '/SaveAndLoadUserQueries/LoadUserQueries',
+                data: { xml: localStorage.getItem(key) },
+                success: function () {
+                    AQB.Web.QueryBuilder.fullUpdate();
+                }
+            });
+        }
+
+        AQB.Web.onQueryBuilderReady(function (qb) {
+            var uq = qb.UserQueriesComponent;
+
+            uq.on(uq.Events.OnCreateFolder, saveToLocalStorage);
+            uq.on(uq.Events.OnCreateUserQuery, saveToLocalStorage);
+            uq.on(uq.Events.OnEdit, saveToLocalStorage);
+            uq.on(uq.Events.OnRemove, saveToLocalStorage);
+            uq.on(uq.Events.OnRename, saveToLocalStorage);
+            uq.on(uq.Events.OnSaveUserQuery, saveToLocalStorage);
+
+            loader.addEventListener('click', loadFromLocalStorage);
+        });
+
+        if (localStorage.getItem(key) == null)
+            loader.style.display = 'none';
+    </script>
+}

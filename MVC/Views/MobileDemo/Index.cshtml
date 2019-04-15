@@ -1,0 +1,111 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    Layout = null;
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Demo</title>
+
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/black-tie/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+</head>
+<body>
+    @controls.GetHtml()
+    <div class="qb-ui-layout">
+        <div class="qb-ui-layout__left">
+            <div class="qb-ui-structure-tabs">
+                <div class="qb-ui-structure-tabs__tab">
+                    <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                    <label for="tree-tab">Database</label>
+                    <div class="qb-ui-structure-tabs__content">
+                        @controls.ObjectTreeView().GetHtml()
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="qb-ui-layout__right">
+            <div class="qb-ui-layout__right-top">
+                @controls.SubQueryNavigationBar().GetHtml()
+                @controls.Canvas().GetHtml()
+                @controls.StatusBar().GetHtml()
+            </div>
+            <div class="qb-ui-layout__right-bottom">
+                <div class="qb-ui-structure-tabs">
+                    <div class="qb-ui-structure-tabs__tab">
+                        <input type="radio" id="qcl-tab" name="right-tabs" checked />
+                        <label for="qcl-tab">Column List</label>
+                        <div class="qb-ui-structure-tabs__content">
+                            @controls.Grid(s => s.OrColumnCount = 0).GetHtml()
+                        </div>
+                    </div>
+                    <div class="qb-ui-structure-tabs__tab">
+                        <input type="radio" id="sql-tab" name="right-tabs" />
+                        <label for="sql-tab">SQL Text</label>
+                        <div class="qb-ui-structure-tabs__content">
+                            @controls.SqlEditor().GetHtml()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        html,
+        body,
+        .qb-ui-layout {
+            height: 100% !important;
+            width: 100% !important;
+            margin: 0;
+        }
+
+        .qb-ui-layout {
+            opacity: 0;
+            transition: opacity 2000ms linear;
+        }
+
+            .qb-ui-layout.fadeIn {
+                opacity: 1;
+            }
+
+        .ui-qb-grid {
+            bottom: auto;
+        }
+
+        .properties__label {
+            vertical-align: middle;
+        }
+
+        @@media screen and (max-height: 1024px) {
+            form {
+                position: fixed;
+                height: 100%;
+                width: 100%;
+            }
+
+            .editable-select-options {
+                width: 300px !important;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/layout.mobile.css" />
+    <script src="/layout.mobile.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                document.getElementsByClassName('qb-ui-layout')[0].classList.add('fadeIn');
+            });
+        });
+    </script>
+
+</body>
+</html>

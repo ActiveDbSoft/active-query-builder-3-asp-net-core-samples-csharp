@@ -1,0 +1,68 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Handle Query Building Events Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Handle Query Building Events Demo</h1>
+        <p>Performing specific actions in the process of building a SQL query.</p>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.6/jquery.jgrowl.min.css" type="text/css" rel="stylesheet" />
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.6/jquery.jgrowl.min.js"></script>
+    <script>
+        AQB.Web.onQueryBuilderReady(function (qb) {
+            qb.CanvasComponent.on(AQB.Web.QueryBuilder.CanvasComponent.Events.CanvasOnAddTable, onAddTableToCanvas);
+
+            AQB.Web.Core.on(AQB.Web.Core.Events.DataSending, beforeDataExchange);
+            AQB.Web.Core.on(AQB.Web.Core.Events.DataReceived, afterDataExchange);
+        });
+
+        function onAddTableToCanvas() {
+            $.jGrowl("Add table to canvas", { header: 'Canvas event' });
+        }
+
+        function beforeDataExchange() {
+            $.jGrowl("Before data exchange", { header: 'Core event' });
+        }
+
+        function afterDataExchange() {
+            $.jGrowl("After data exchange", { header: 'Core event' });
+        }
+    </script>
+}

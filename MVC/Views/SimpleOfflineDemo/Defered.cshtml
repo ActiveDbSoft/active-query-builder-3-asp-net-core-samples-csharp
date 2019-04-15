@@ -1,0 +1,98 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Deferred Component Load Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request, s =>
+    {
+        s.Theme = "bootstrap";
+        s.LoadScript = s.LoadStyle = false;
+    });
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Deferred Component Load Demo</h1>
+        <p>When Query Builder should be loaded on demand and/or called several times without memory leakage on both the client and server sides, you can trigger its load and destroy via AQB JavaScript API as illustrated in this demo.</p>
+        <span class="btn btn-default create">Create</span>
+        <span class="btn btn-default destroy" style="display: none;">Destroy</span>
+        <br />
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        var script = null;
+        var link = null;
+
+        $(function () {
+            $('.create').click(function () {
+                loadScript();
+                loadStyle();
+
+                $(this).hide();
+                $('.destroy').show();
+
+                setTimeout(function () {
+                    AQB.startApplication();
+                }, 1000);
+            });
+
+            $('.destroy').click(function () {
+                $(this).hide();
+                $('.create').show();
+
+                AQB.Web.dispose();
+
+                if (script)
+                    script.remove();
+            });
+        });
+
+        function loadScript() {
+            script = document.createElement('script');
+            script.setAttribute('src', '/ActiveQueryBuilder/Handler/resources/script/qb');
+
+            document.body.appendChild(script);
+        }
+
+        function loadStyle() {
+            if (link)
+                return;
+
+            link = document.createElement('link');
+            link.setAttribute('href', '/ActiveQueryBuilder/Handler/resources/style/qb');
+            link.setAttribute('type', 'text/css');
+            link.setAttribute('rel', 'stylesheet');
+
+            document.body.appendChild(link);
+        }
+    </script>
+}

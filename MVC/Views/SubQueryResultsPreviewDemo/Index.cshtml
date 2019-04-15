@@ -1,0 +1,159 @@
+﻿@using ActiveQueryBuilder.View
+@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Edit Sub-Query Text Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>SubQuery Results Preview Demo</h1>
+        <ul>
+            <li>To display the text of the currently active sub-query and let the user change it, set the SqlEditor.TargetQueryPart property to the SubQuery or UnionSubQuery value.</li>
+            <li>The difference between the two latter options is that the SubQuery may contain several SELECT statements united with set operators (UNION, EXCEPT, INTERSECT) while the UnionSubQuery is the currently active single SELECT statement in a sub-query.</li>
+            <li>To get text of the active sub-query to execute against a database server and display its result data preview, use the QueryBuilder.ActiveSubQuery.SQL or QueryBuilder.ActiveUnionSubQuery.SQL properties.</li>
+            <li>To limit the number of records displayed in the data preview, use the QueryTransformer object to add row limitation clause as shown in this demo.</li>
+        </ul>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                <div class="qb-ui-structure-tabs">
+                    <div class="qb-ui-structure-tabs__tab">
+                        <input type="radio" id="w-tab" name="sql-tabs" checked />
+                        <label for="w-tab">Full Query Text</label>
+                        <div class="qb-ui-structure-tabs__content">
+                            <span class="label label-info">Text of the entire SQL query.</span>
+                            @controls.SqlEditor().GetHtml()
+                        </div>
+                    </div>
+                    <div class="qb-ui-structure-tabs__tab">
+                        <input type="radio" id="a-tab" name="sql-tabs" />
+                        <label for="a-tab">SubQuery Text</label>
+                        <div class="qb-ui-structure-tabs__content">
+                            <span class="label label-info">Text of the currently visible subquery. May include multiple SELECT statements united with set operators. (UNION, EXCEPT, INTRESECT)</span>
+                            @controls.SqlEditor(s => { s.TargetQueryPart = QueryPart.SubQuery; }).GetHtml()
+                        </div>
+                    </div>
+                    <div class="qb-ui-structure-tabs__tab">
+                        <input type="radio" id="au-tab" name="sql-tabs" />
+                        <label for="au-tab">Single SELECT Text</label>
+                        <div class="qb-ui-structure-tabs__content">
+                            <span class="label label-info">Text of a single SELECT statement: one of the SELECT statements united with set operators in a subquery. (UNION, EXCEPT, INTRESECT)</span>
+                            @controls.SqlEditor(s => { s.TargetQueryPart = QueryPart.UnionSubQuery; }).GetHtml()
+                        </div>
+                    </div>
+                    <div class="qb-ui-structure-tabs__tab">
+                        <input type="radio" id="qr-tab" name="sql-tabs" />
+                        <label for="qr-tab">Preview results</label>
+                        <div class="qb-ui-structure-tabs__content">
+                            <a class="link-to-grid-site" href="https://www.jqwidgets.com">https://www.jqwidgets.com</a>
+                            <div id="jqxgrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css" />
+
+    <style>
+        .qb-ui-layout__bottom {
+            height: 300px;
+        }
+
+        .qb-ui-layout .qb-ui-layout__left,
+        .qb-ui-layout .qb-ui-layout__right {
+            height: 500px;
+        }
+
+            .qb-ui-layout .qb-ui-layout__right .qb-ui-canvas {
+                height: 300px;
+            }
+
+        .link-to-grid-site {
+            float: right;
+            color: blue !important;
+        }
+
+        .label-info {
+            display: inline-block;
+            font-size: 14px;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="https://jqwidgets.com/public/jqwidgets/jqx-all.js"></script>
+    <script>
+        var container = $('#jqxgrid'),
+            grid;
+
+        AQB.Web.onQueryBuilderReady(function (qb) {
+            qb.on(qb.Events.ActiveUnionSubQueryChanged, loadPreview);
+            qb.on(qb.Events.SqlChanged, loadPreview);
+            loadPreview();
+        });
+
+        function loadPreview() {
+            if (grid)
+                grid.jqxGrid('showloadelement');
+
+            $.ajax({
+                url: "SubQueryResultsPreviewDemo/GetData",
+                success: function (result) {
+                    if (grid)
+                        grid.jqxGrid('destroy');
+
+                    grid = $('<div class="grid">');
+                    container.append(grid);
+
+                    var source =
+                    {
+                        localdata: result.data,
+                        datafields: result.columns.map(function (c, i) {
+                            return { name: c, map: i.toString() }
+                        }),
+                        datatype: "array"
+                    };
+
+                    var dataAdapter = new $.jqx.dataAdapter(source);
+
+                    grid.jqxGrid(
+                        {
+                            width: '100%',
+                            source: dataAdapter,
+                            columnsresize: true,
+                            columns: result.columns.map(function (c) {
+                                return { text: c, datafield: c }
+                            })
+                        });
+                }
+            });
+        }
+    </script>
+}

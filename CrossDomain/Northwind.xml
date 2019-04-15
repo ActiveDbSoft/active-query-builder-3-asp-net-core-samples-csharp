@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<database name="Northwind" default="True">
+		<schema name="dbo" default="True">
+			<table name="Categories">
+				<field name="CategoryID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="CategoryName" type_name="nvarchar" type="String" size="15" precision="255" scale="255" nullable="False" />
+				<field name="Description" type_name="ntext" type="String" size="1073741823" precision="255" scale="255" />
+				<field name="Picture" type_name="image" type="Binary" size="2147483647" precision="255" scale="255" />
+			</table>
+			<table name="Customers">
+				<field name="CustomerID" primary_key="True" type_name="nchar" type="String" size="5" precision="255" scale="255" nullable="False" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ContactName" type_name="nvarchar" type="String" size="30" precision="255" scale="255" />
+				<field name="ContactTitle" type_name="nvarchar" type="String" size="30" precision="255" scale="255" />
+				<field name="Address" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Region" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="PostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="Country" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Phone" type_name="nvarchar" type="String" size="24" precision="255" scale="255" />
+				<field name="Fax" type_name="nvarchar" type="String" size="24" precision="255" scale="255" />
+			</table>
+			<table name="Shippers">
+				<field name="ShipperID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="Phone" type_name="nvarchar" type="String" size="24" precision="255" scale="255" />
+			</table>
+			<table name="Suppliers">
+				<field name="SupplierID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ContactName" type_name="nvarchar" type="String" size="30" precision="255" scale="255" />
+				<field name="ContactTitle" type_name="nvarchar" type="String" size="30" precision="255" scale="255" />
+				<field name="Address" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Region" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="PostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="Country" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Phone" type_name="nvarchar" type="String" size="24" precision="255" scale="255" />
+				<field name="Fax" type_name="nvarchar" type="String" size="24" precision="255" scale="255" />
+				<field name="HomePage" type_name="ntext" type="String" size="1073741823" precision="255" scale="255" />
+			</table>
+			<table name="Orders">
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="CustomerID" type_name="nchar" type="String" size="5" precision="255" scale="255" />
+				<field name="EmployeeID" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="OrderDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="RequiredDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="ShippedDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="ShipVia" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="Freight" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+				<field name="ShipName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" />
+				<field name="ShipAddress" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="ShipCity" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="ShipRegion" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="ShipPostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="ShipCountry" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<foreignkey>
+					<referenced_object>
+						<name>Customers</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="CustomerID" referenced_field="CustomerID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>Shippers</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="ShipVia" referenced_field="ShipperID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>Employees</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="EmployeeID" referenced_field="EmployeeID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="Products">
+				<field name="ProductID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="SupplierID" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="CategoryID" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="QuantityPerUnit" type_name="nvarchar" type="String" size="20" precision="255" scale="255" />
+				<field name="UnitPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+				<field name="UnitsInStock" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="UnitsOnOrder" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="ReorderLevel" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="Discontinued" type_name="bit" type="Boolean" size="1" precision="255" scale="255" nullable="False" />
+				<foreignkey>
+					<referenced_object>
+						<name>Categories</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="CategoryID" referenced_field="CategoryID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>Suppliers</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="SupplierID" referenced_field="SupplierID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="Order Details">
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="ProductID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="UnitPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" nullable="False" />
+				<field name="Quantity" type_name="smallint" type="Int16" size="2" precision="5" scale="255" nullable="False" />
+				<field name="Discount" type_name="real" type="Single" size="4" precision="7" scale="255" nullable="False" />
+				<foreignkey>
+					<referenced_object>
+						<name>Orders</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="OrderID" referenced_field="OrderID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>Products</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="ProductID" referenced_field="ProductID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<view name="Customer and Suppliers by City">
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ContactName" type_name="nvarchar" type="String" size="30" precision="255" scale="255" />
+				<field name="Relationship" type_name="varchar" type="String" size="9" precision="255" scale="255" nullable="False" />
+			</view>
+			<view name="Alphabetical list of products">
+				<field name="ProductID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="SupplierID" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="CategoryID" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="QuantityPerUnit" type_name="nvarchar" type="String" size="20" precision="255" scale="255" />
+				<field name="UnitPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+				<field name="UnitsInStock" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="UnitsOnOrder" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="ReorderLevel" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="Discontinued" type_name="bit" type="Boolean" size="1" precision="255" scale="255" nullable="False" />
+				<field name="CategoryName" type_name="nvarchar" type="String" size="15" precision="255" scale="255" nullable="False" />
+			</view>
+			<view name="Current Product List">
+				<field name="ProductID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+			</view>
+			<view name="Orders Qry">
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="CustomerID" type_name="nchar" type="String" size="5" precision="255" scale="255" />
+				<field name="EmployeeID" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="OrderDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="RequiredDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="ShippedDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="ShipVia" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="Freight" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+				<field name="ShipName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" />
+				<field name="ShipAddress" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="ShipCity" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="ShipRegion" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="ShipPostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="ShipCountry" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="Address" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Region" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="PostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="Country" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+			</view>
+			<view name="Products Above Average Price">
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="UnitPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Products by Category">
+				<field name="CategoryName" type_name="nvarchar" type="String" size="15" precision="255" scale="255" nullable="False" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="QuantityPerUnit" type_name="nvarchar" type="String" size="20" precision="255" scale="255" />
+				<field name="UnitsInStock" type_name="smallint" type="Int16" size="2" precision="5" scale="255" />
+				<field name="Discontinued" type_name="bit" type="Boolean" size="1" precision="255" scale="255" nullable="False" />
+			</view>
+			<view name="Quarterly Orders">
+				<field name="CustomerID" primary_key="True" type_name="nchar" type="String" size="5" precision="255" scale="255" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" />
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Country" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+			</view>
+			<view name="Invoices">
+				<field name="ShipName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" />
+				<field name="ShipAddress" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="ShipCity" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="ShipRegion" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="ShipPostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="ShipCountry" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="CustomerID" type_name="nchar" type="String" size="5" precision="255" scale="255" />
+				<field name="CustomerName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="Address" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Region" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="PostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="Country" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Salesperson" type_name="nvarchar" type="String" size="31" precision="255" scale="255" nullable="False" readonly="True" />
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="OrderDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="RequiredDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="ShippedDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="ShipperName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ProductID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="UnitPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" nullable="False" />
+				<field name="Quantity" type_name="smallint" type="Int16" size="2" precision="5" scale="255" nullable="False" />
+				<field name="Discount" type_name="real" type="Single" size="4" precision="7" scale="255" nullable="False" />
+				<field name="ExtendedPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" readonly="True" />
+				<field name="Freight" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Order Details Extended">
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="ProductID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="UnitPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" nullable="False" />
+				<field name="Quantity" type_name="smallint" type="Int16" size="2" precision="5" scale="255" nullable="False" />
+				<field name="Discount" type_name="real" type="Single" size="4" precision="7" scale="255" nullable="False" />
+				<field name="ExtendedPrice" type_name="money" type="Decimal" size="8" precision="19" scale="255" readonly="True" />
+			</view>
+			<view name="Order Subtotals">
+				<field name="OrderID" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="Subtotal" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Product Sales for 1997">
+				<field name="CategoryName" type_name="nvarchar" type="String" size="15" precision="255" scale="255" nullable="False" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ProductSales" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Category Sales for 1997">
+				<field name="CategoryName" type_name="nvarchar" type="String" size="15" precision="255" scale="255" nullable="False" />
+				<field name="CategorySales" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Sales by Category">
+				<field name="CategoryID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="CategoryName" type_name="nvarchar" type="String" size="15" precision="255" scale="255" nullable="False" />
+				<field name="ProductName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ProductSales" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Sales Totals by Amount">
+				<field name="SaleAmount" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="CompanyName" type_name="nvarchar" type="String" size="40" precision="255" scale="255" nullable="False" />
+				<field name="ShippedDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+			</view>
+			<view name="Summary of Sales by Quarter">
+				<field name="ShippedDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="Subtotal" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<view name="Summary of Sales by Year">
+				<field name="ShippedDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="OrderID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="Subtotal" type_name="money" type="Decimal" size="8" precision="19" scale="255" />
+			</view>
+			<table name="CustomerCustomerDemo">
+				<field name="CustomerID" primary_key="True" type_name="nchar" type="String" size="5" precision="255" scale="255" nullable="False" />
+				<field name="CustomerTypeID" primary_key="True" type_name="nchar" type="String" size="10" precision="255" scale="255" nullable="False" />
+				<foreignkey>
+					<referenced_object>
+						<name>Customers</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="CustomerID" referenced_field="CustomerID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>CustomerDemographics</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="CustomerTypeID" referenced_field="CustomerTypeID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="CustomerDemographics">
+				<field name="CustomerTypeID" primary_key="True" type_name="nchar" type="String" size="10" precision="255" scale="255" nullable="False" />
+				<field name="CustomerDesc" type_name="ntext" type="String" size="1073741823" precision="255" scale="255" />
+			</table>
+			<table name="Region">
+				<field name="RegionID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="RegionDescription" type_name="nchar" type="String" size="50" precision="255" scale="255" nullable="False" />
+			</table>
+			<table name="Territories">
+				<field name="TerritoryID" primary_key="True" type_name="nvarchar" type="String" size="20" precision="255" scale="255" nullable="False" />
+				<field name="TerritoryDescription" type_name="nchar" type="String" size="50" precision="255" scale="255" nullable="False" />
+				<field name="RegionID" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<foreignkey>
+					<referenced_object>
+						<name>Region</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="RegionID" referenced_field="RegionID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="EmployeeTerritories">
+				<field name="EmployeeID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" />
+				<field name="TerritoryID" primary_key="True" type_name="nvarchar" type="String" size="20" precision="255" scale="255" nullable="False" />
+				<foreignkey>
+					<referenced_object>
+						<name>Territories</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="TerritoryID" referenced_field="TerritoryID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>Employees</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="EmployeeID" referenced_field="EmployeeID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="Employees">
+				<field name="EmployeeID" primary_key="True" type_name="int" type="Int32" size="4" precision="10" scale="255" nullable="False" readonly="True" />
+				<field name="LastName" type_name="nvarchar" type="String" size="20" precision="255" scale="255" nullable="False" />
+				<field name="FirstName" type_name="nvarchar" type="String" size="10" precision="255" scale="255" nullable="False" />
+				<field name="Title" type_name="nvarchar" type="String" size="30" precision="255" scale="255" />
+				<field name="TitleOfCourtesy" type_name="nvarchar" type="String" size="25" precision="255" scale="255" />
+				<field name="BirthDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="HireDate" type_name="datetime" type="DateTime" size="8" precision="23" scale="3" />
+				<field name="Address" type_name="nvarchar" type="String" size="60" precision="255" scale="255" />
+				<field name="City" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="Region" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="PostalCode" type_name="nvarchar" type="String" size="10" precision="255" scale="255" />
+				<field name="Country" type_name="nvarchar" type="String" size="15" precision="255" scale="255" />
+				<field name="HomePhone" type_name="nvarchar" type="String" size="24" precision="255" scale="255" />
+				<field name="Extension" type_name="nvarchar" type="String" size="4" precision="255" scale="255" />
+				<field name="Photo" type_name="image" type="Binary" size="2147483647" precision="255" scale="255" />
+				<field name="Notes" type_name="ntext" type="String" size="1073741823" precision="255" scale="255" />
+				<field name="ReportsTo" type_name="int" type="Int32" size="4" precision="10" scale="255" />
+				<field name="PhotoPath" type_name="nvarchar" type="String" size="255" precision="255" scale="255" />
+				<foreignkey>
+					<referenced_object>
+						<name>Employees</name>
+						<name>dbo</name>
+						<name>Northwind</name>
+					</referenced_object>
+					<referencing_field name="ReportsTo" referenced_field="EmployeeID" />
+					<referencing_cardinality>Many</referencing_cardinality>
+					<referenced_cardinality>One</referenced_cardinality>
+				</foreignkey>
+			</table>
+		</schema>
+	</database>
+</metadata>

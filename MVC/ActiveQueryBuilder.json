@@ -1,0 +1,23 @@
+﻿{
+    //Active Query Builder settings section
+    "aspQueryBuilder": {
+        //properties of the QueryBuilder component
+        "common": {
+            "httpCompression": "true",
+            "persistentConnection": "false"
+        },
+        "syntaxProvider": {
+            "type": "ActiveQueryBuilder.Core.DB2SyntaxProvider, ActiveQueryBuilder.Core" //<!-- the necessary tag -->
+        },
+        /*"metadataProvider": {
+            "type": "ActiveQueryBuilder.Core.MSSQLMetadataProvider, ActiveQueryBuilder.MSSQLMetadataProvider" //only needed in case of live database connection
+        },*/
+        "metadataSource": {
+            "xml": "C:\\Work\\ActiveQueryBuilderASPNET_3.0\\src\\Samples\\Sample databases\\db2_sample_with_alt_names.xml" //xml attribute: Absolute path to your metadata file
+            /*"dbConnection": {
+                "type": "System.Data.SqlClient.SqlConnection, System.Data",
+                "connectionString": "data source=.\\sqlexpress; integrated security=true"
+            }*/
+        }
+    }
+}

@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Switch Database Connections Demo";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Switch Database Connections Demo</h1>
+        <p>Switching between different database connections at run time.</p>
+        <div>
+            <h3 style="display: inline">Connect to:</h3>
+            <button class="change">NorthwindXmlMetaData</button>
+            <button class="change">Db2XmlMetaData</button>
+            <button class="change">SQLite</button>
+        </div>
+    </div>
+    <div class="col-md-12 query-builder-container"></div>
+</div>
+
+@section scripts
+{
+    <script>
+    $('.change').click(function() {
+        $.ajax({
+            type: 'POST',
+            url: '/ChangeConnection/ChangePartial',
+            data: {
+                name: this.innerText
+            },
+            success: function (data) {
+                if (window.AQB != null) 
+                    AQB.Web.dispose(); // Disposing a namespace which leads to the release of all allocated memory on both client and server.
+
+                $('.query-builder-container').html(data); // Anticipating all the necessary code and scripts returned from the partial view.
+
+                AQB.Web.onQueryBuilderReady(function (qb) {
+                    qb.on(qb.Events.SqlChanged, function () { // sample subscription to query changes made in the UI.
+                        isQueryChanged = true; 
+                    });
+                    qb.on(qb.Events.SQLTextChanged, function () { // sample subscription to SQL text changes made by the user.
+                        isQueryChanged = true;
+                    });
+                }); 
+
+                AQB.startApplication(); // Subscribing to changes first, then running the application.
+            }
+        });
+    });
+    </script>
+}

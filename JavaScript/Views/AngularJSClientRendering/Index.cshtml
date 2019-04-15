@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "AngularJS Client Rendering Demo";
+}
+
+<div class="row" ng-app="activeQueryBuilder">
+    <div class="col-md-12">
+        <h1>AngularJS Client Rendering Demo</h1>
+        <p>
+            Active Query Builder starts immediately on the page load.
+        </p>
+    </div>
+    <div class="col-md-12" ng-controller="aqbController">
+        <div id="qb"></div>
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                <div id="treeview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    <div id="navbar"></div>
+                    <div id="canvas"></div>
+                    <div id="statusbar"></div>
+                    <div id="grid"></div>
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                <div id="sql"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script type="text/javascript" src="/aqb.client.js"></script>
+
+    <script>
+        var aqbApp = angular.module("activeQueryBuilder", []);
+
+        aqbApp.controller("aqbController", function($scope, $window, $document) {
+            // Instance identifier string to bind to the QueryBuilder component on the server side. See the AngularJSClientRenderingController.cs code for details.
+            var instanceId = "AngularJS";
+            var ui = $window.AQB.Web.UI;
+
+            ui.QueryBuilder(instanceId, $document.find('#qb'));
+            ui.ObjectTreeView(instanceId, $document.find('#treeview'));
+            ui.SubQueryNavigationBar(instanceId, $document.find('#navbar'));
+            ui.Canvas(instanceId, $document.find('#canvas'));
+            ui.StatusBar(instanceId, $document.find('#statusbar'));
+            ui.Grid(instanceId, $document.find('#grid'), { orColumnCount: 0 });
+            ui.SqlEditor(instanceId, $document.find('#sql'));
+
+            ui.startApplication(instanceId);
+        });
+    </script>
+}

@@ -1,0 +1,81 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Virtual Objects And Fields Demo";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Virtual Objects And Fields Demo</h1>
+        <div class="block-flat">
+            This sample demonstrates the creation and usage of virtual database objects and fields.
+            Switching the tabs at the bottom you can see the query text with virtual objects or the real query where virtual objects
+            are expanded to theirs expressions for execution against a database server.
+        </div>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="ui-widget">
+            <div class="ui-widget-header real-header">
+                <span>Real query text with virtual objects expanded to their expressions</span>
+            </div>
+            <div class="ui-dialog-content ui-widget-content real-sql">
+                <textarea></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .real-sql textarea {
+        max-width: 100%;
+        width: 100%;
+        height: 250px;
+    }
+
+    .real-header {
+        padding: 5px 10px;
+    }
+</style>
+
+@section scripts
+    {
+    <script>
+        $(function () {
+            AQB.Web.onQueryBuilderReady(function () {
+                AQB.Web.Core.on(AQB.Web.Core.Events.UserDataReceived, onUserDataReceived);
+            });
+
+            function onUserDataReceived(data) {
+                $('.real-sql textarea').eq(0).val(data.SQL);
+            };
+        });
+    </script>
+}

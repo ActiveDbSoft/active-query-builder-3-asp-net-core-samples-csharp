@@ -1,0 +1,14 @@
+{
+  "name": "active-query-builder-electron-example",
+  "version": "1.0.0",
+  "description": "how to use query-builder with electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Active Database Software",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "~1.8.2"
+  }
+}

@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.activequerybuilder.com/schemas/metadata2.xsd">
+	<database name="sakila">
+		<table name="actor">
+			<field name="actor_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="first_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="last_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+		</table>
+		<view name="actor_info">
+			<field name="actor_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="first_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="last_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="film_info" type_name="text" type="String" size="1024" />
+		</view>
+		<table name="address">
+			<field name="address_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="address" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="address2" type_name="varchar" type="String" size="50" />
+			<field name="district" type_name="varchar" type="String" size="20" nullable="False" />
+			<field name="city_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="postal_code" type_name="varchar" type="String" size="10" />
+			<field name="phone" type_name="varchar" type="String" size="20" nullable="False" />
+			<field name="location" type_name="geometry" type="Binary" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>city</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="city_id" referenced_field="city_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<table name="category">
+			<field name="category_id" primary_key="True" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="name" type_name="varchar" type="String" size="25" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+		</table>
+		<table name="city">
+			<field name="city_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="city" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="country_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>country</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="country_id" referenced_field="country_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<table name="country">
+			<field name="country_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="country" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+		</table>
+		<table name="customer">
+			<field name="customer_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="store_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="first_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="last_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="email" type_name="varchar" type="String" size="50" />
+			<field name="address_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="active" type_name="tinyint" type="Boolean" size="1" nullable="False" />
+			<field name="create_date" type_name="datetime" type="DateTime" size="19" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>address</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="address_id" referenced_field="address_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>store</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="store_id" referenced_field="store_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<view name="customer_list">
+			<field name="ID" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="name" type_name="varchar" type="String" size="91" scale="31" />
+			<field name="address" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="zip code" type_name="varchar" type="String" size="10" />
+			<field name="phone" type_name="varchar" type="String" size="20" nullable="False" />
+			<field name="city" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="country" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="notes" type_name="varchar" type="String" size="6" scale="31" nullable="False" />
+			<field name="SID" type_name="tinyint" type="Byte" size="3" nullable="False" />
+		</view>
+		<table name="film">
+			<field name="film_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="title" type_name="varchar" type="String" size="255" nullable="False" />
+			<field name="description" type_name="text" type="String" size="21845" />
+			<field name="release_year" type_name="year" type="Int32" size="4" />
+			<field name="language_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="original_language_id" type_name="tinyint" type="Byte" size="3" />
+			<field name="rental_duration" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="rental_rate" type_name="decimal" type="Decimal" size="6" precision="4" scale="2" nullable="False" />
+			<field name="length" type_name="smallint" type="UInt16" size="5" />
+			<field name="replacement_cost" type_name="decimal" type="Decimal" size="7" precision="5" scale="2" nullable="False" />
+			<field name="rating" type_name="enum" type="String" size="5" />
+			<field name="special_features" type_name="set" type="String" size="54" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>language</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="language_id" referenced_field="language_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>language</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="original_language_id" referenced_field="language_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<table name="film_actor">
+			<field name="actor_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="film_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>actor</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="actor_id" referenced_field="actor_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>film</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="film_id" referenced_field="film_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<table name="film_category">
+			<field name="film_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="category_id" primary_key="True" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>category</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="category_id" referenced_field="category_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>film</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="film_id" referenced_field="film_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<view name="film_list">
+			<field name="FID" type_name="smallint" type="UInt16" size="5" />
+			<field name="title" type_name="varchar" type="String" size="255" />
+			<field name="description" type_name="text" type="String" size="21845" />
+			<field name="category" type_name="varchar" type="String" size="25" nullable="False" />
+			<field name="price" type_name="decimal" type="Decimal" size="6" precision="4" scale="2" />
+			<field name="length" type_name="smallint" type="UInt16" size="5" />
+			<field name="rating" type_name="enum" type="String" size="5" />
+			<field name="actors" type_name="text" type="String" size="1024" />
+		</view>
+		<table name="film_text">
+			<field name="film_id" primary_key="True" type_name="smallint" type="Int16" size="6" nullable="False" />
+			<field name="title" type_name="varchar" type="String" size="255" nullable="False" />
+			<field name="description" type_name="text" type="String" size="21845" />
+		</table>
+		<table name="inventory">
+			<field name="inventory_id" primary_key="True" type_name="mediumint" type="UInt32" size="8" nullable="False" />
+			<field name="film_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="store_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>film</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="film_id" referenced_field="film_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>store</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="store_id" referenced_field="store_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<table name="language">
+			<field name="language_id" primary_key="True" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="name" type_name="char" type="String" size="20" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+		</table>
+		<view name="nicer_but_slower_film_list">
+			<field name="FID" type_name="smallint" type="UInt16" size="5" />
+			<field name="title" type_name="varchar" type="String" size="255" />
+			<field name="description" type_name="text" type="String" size="21845" />
+			<field name="category" type_name="varchar" type="String" size="25" nullable="False" />
+			<field name="price" type_name="decimal" type="Decimal" size="6" precision="4" scale="2" />
+			<field name="length" type_name="smallint" type="UInt16" size="5" />
+			<field name="rating" type_name="enum" type="String" size="5" />
+			<field name="actors" type_name="text" type="String" size="1024" />
+		</view>
+		<table name="payment">
+			<field name="payment_id" primary_key="True" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="customer_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="staff_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="rental_id" type_name="int" type="Int32" size="11" />
+			<field name="amount" type_name="decimal" type="Decimal" size="7" precision="5" scale="2" nullable="False" />
+			<field name="payment_date" type_name="datetime" type="DateTime" size="19" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>customer</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="customer_id" referenced_field="customer_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>rental</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="rental_id" referenced_field="rental_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>staff</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="staff_id" referenced_field="staff_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<table name="rental">
+			<field name="rental_id" primary_key="True" type_name="int" type="Int32" size="11" nullable="False" />
+			<field name="rental_date" type_name="datetime" type="DateTime" size="19" nullable="False" />
+			<field name="inventory_id" type_name="mediumint" type="UInt32" size="8" nullable="False" />
+			<field name="customer_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="return_date" type_name="datetime" type="DateTime" size="19" />
+			<field name="staff_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>customer</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="customer_id" referenced_field="customer_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>inventory</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="inventory_id" referenced_field="inventory_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>staff</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="staff_id" referenced_field="staff_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<view name="sales_by_film_category">
+			<field name="category" type_name="varchar" type="String" size="25" nullable="False" />
+			<field name="total_sales" type_name="decimal" type="Decimal" size="29" precision="27" scale="2" />
+		</view>
+		<view name="sales_by_store">
+			<field name="store" type_name="varchar" type="String" size="101" />
+			<field name="manager" type_name="varchar" type="String" size="91" />
+			<field name="total_sales" type_name="decimal" type="Decimal" size="29" precision="27" scale="2" />
+		</view>
+		<table name="staff">
+			<field name="staff_id" primary_key="True" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="first_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="last_name" type_name="varchar" type="String" size="45" nullable="False" />
+			<field name="address_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="picture" type_name="blob" type="Binary" size="21845" />
+			<field name="email" type_name="varchar" type="String" size="50" />
+			<field name="store_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="active" type_name="tinyint" type="Boolean" size="1" nullable="False" />
+			<field name="username" type_name="varchar" type="String" size="16" nullable="False" />
+			<field name="password" type_name="varchar" type="String" size="40" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>address</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="address_id" referenced_field="address_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>store</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="store_id" referenced_field="store_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+		<view name="staff_list">
+			<field name="ID" primary_key="True" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="name" type_name="varchar" type="String" size="91" scale="31" />
+			<field name="address" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="zip code" type_name="varchar" type="String" size="10" />
+			<field name="phone" type_name="varchar" type="String" size="20" nullable="False" />
+			<field name="city" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="country" type_name="varchar" type="String" size="50" nullable="False" />
+			<field name="SID" type_name="tinyint" type="Byte" size="3" nullable="False" />
+		</view>
+		<table name="store">
+			<field name="store_id" primary_key="True" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="manager_staff_id" type_name="tinyint" type="Byte" size="3" nullable="False" />
+			<field name="address_id" type_name="smallint" type="UInt16" size="5" nullable="False" />
+			<field name="last_update" type_name="timestamp" type="DateTime" size="19" nullable="False" />
+			<foreignkey>
+				<referenced_object>
+					<name>address</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="address_id" referenced_field="address_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+			<foreignkey>
+				<referenced_object>
+					<name>staff</name>
+					<name>sakila</name>
+				</referenced_object>
+				<referencing_field name="manager_staff_id" referenced_field="staff_id" />
+				<referencing_cardinality>Many</referencing_cardinality>
+				<referenced_cardinality>One</referenced_cardinality>
+			</foreignkey>
+		</table>
+	</database>
+</metadata>
