@@ -5,6 +5,7 @@ using ActiveQueryBuilder.Web.Server;
 using ActiveQueryBuilder.Web.Server.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace ASP.NET_Core.Controllers
 {
@@ -12,13 +13,15 @@ namespace ASP.NET_Core.Controllers
     {
         private readonly IQueryBuilderService _aqbs;
         private readonly IHostingEnvironment _env;
+        private readonly IConfiguration _config;
 
         // Use IQueryBuilderService to get access to the server-side instances of Active Query Builder objects. 
         // See the registration of this service in the Startup.cs.
-        public HtmlHelpersDemoController(IQueryBuilderService aqbs, IHostingEnvironment env)
+        public HtmlHelpersDemoController(IQueryBuilderService aqbs, IHostingEnvironment env, IConfiguration config)
         {
             _aqbs = aqbs;
             _env = env;
+            _config = config;
         }
 
         // GET
@@ -44,7 +47,7 @@ namespace ASP.NET_Core.Controllers
             queryBuilder.MetadataLoadingOptions.OfflineMode = true;
 
             // Load MetaData from the pre-generated XML document.
-            var path = "../../Sample databases/Northwind.xml";
+            var path = _config["NorthwindXmlMetaData"];
             var xml = Path.Combine(_env.WebRootPath, path);
 
             queryBuilder.MetadataContainer.ImportFromXML(xml);

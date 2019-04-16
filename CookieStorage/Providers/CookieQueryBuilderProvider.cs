@@ -53,7 +53,7 @@ namespace AspNetCoreCookieStorage.Providers
 
         private void LoadMetadata(QueryBuilder qb)
         {
-            var path = @"../../../../Sample databases/Northwind.xml";
+            var path = @"../../Sample databases/Northwind.xml";
             var xml = Path.Combine(_env.WebRootPath, path);
 
             qb.MetadataContainer.ImportFromXML(xml);

@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<database name="SAMPLE" default="True">
+		<schema name="ADMINISTRATOR" default="True">
+			<table name="ACT" alt_name="Activities">
+				<description>The activity table describes each activity.</description>
+				<field name="ACTNO" alt_name="Activity ID" primary_key="True" type="Int16" size="2" precision="5" nullable="False" readonly="True">
+					<description>Activity number</description>
+				</field>
+				<field name="ACTKWD" alt_name="Keyword" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Keyword for activity</description>
+				</field>
+				<field name="ACTDESC" alt_name="Description" type="String" size="20" precision="20" nullable="False" readonly="True">
+					<description>Description of activity</description>
+				</field>
+			</table>
+			<table name="DEPARTMENT" alt_name="Departments">
+				<description>The department table describes each department in the enterprise and identifies its manager and the department it reports to.</description>
+				<field name="DEPTNO" alt_name="Department ID" primary_key="True" type="String" size="3" precision="3" nullable="False" readonly="True">
+					<description>Department number or ID</description>
+				</field>
+				<field name="DEPTNAME" alt_name="Department Name" type="String" size="36" precision="36" nullable="False" readonly="True">
+					<description>A name describing the general activities of the department.</description>
+				</field>
+				<field name="MGRNO" alt_name="Department Manager" type="String" size="6" precision="6" readonly="True">
+					<description>Employee number (EMPNO) of the department manager.</description>
+				</field>
+				<field name="ADMRDEPT" alt_name="Administration Department" type="String" size="3" precision="3" nullable="False" readonly="True">
+					<description>The department (DEPTNO) to which this department reports; the department at the highest level reports to itself.</description>
+				</field>
+				<field name="LOCATION" alt_name="Location" type="String" size="16" precision="16" readonly="True">
+					<description>Location of the department.</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>EMPLOYEE</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="MGRNO" referenced_field="EMPNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="EMP_PHOTO" alt_name="Employee Photos">
+				<description>The employee photo table contains a photo for employees stored by employee number.</description>
+				<field name="EMPNO" alt_name="Employee ID" primary_key="True" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Employee number</description>
+				</field>
+				<field name="PHOTO_FORMAT" alt_name="Image Format" primary_key="True" type="String" size="10" precision="10" nullable="False" readonly="True">
+					<description>Format of Photo Image</description>
+				</field>
+				<field name="PICTURE" alt_name="Photo Image" type="Binary" size="102400" readonly="True">
+					<description>Photo image</description>
+				</field>
+				<field name="EMP_ROWID" alt_name="Row ID" type="String" size="40" precision="40" nullable="False" readonly="True">
+					<description>Unique row id, not currently used</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>EMPLOYEE</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="EMPNO" referenced_field="EMPNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="EMP_RESUME" alt_name="Employee Resumes">
+				<description>The employee resume table contains a resume for employees stored by employee number.</description>
+				<field name="EMPNO" alt_name="Employee ID" primary_key="True" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Employee number</description>
+				</field>
+				<field name="RESUME_FORMAT" alt_name="Resume Format" primary_key="True" type="String" size="10" precision="10" nullable="False" readonly="True">
+					<description>Format of resume</description>
+				</field>
+				<field name="RESUME" alt_name="Resume" type="String" size="5120" precision="5120" readonly="True">
+					<description>Resume</description>
+				</field>
+				<field name="EMP_ROWID" alt_name="Row ID" type="String" size="40" precision="40" nullable="False" readonly="True">
+					<description>Unique row id, not currently used</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>EMPLOYEE</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="EMPNO" referenced_field="EMPNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="EMPLOYEE" alt_name="Employees">
+				<description>The employee table identifies all employees by an employee number and lists basic personnel information.</description>
+				<field name="EMPNO" alt_name="Employee ID" primary_key="True" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Employee number</description>
+				</field>
+				<field name="FIRSTNME" alt_name="First Name" type="String" size="12" precision="12" nullable="False" readonly="True">
+					<description>First name of employee</description>
+				</field>
+				<field name="MIDINIT" alt_name="Middle Initial" type="String" size="1" precision="1" readonly="True">
+					<description>Middle initial of employee</description>
+				</field>
+				<field name="LASTNAME" alt_name="Last Name" type="String" size="15" precision="15" nullable="False" readonly="True">
+					<description>Family name of employee</description>
+				</field>
+				<field name="WORKDEPT" alt_name="Working Department" type="String" size="3" precision="3" readonly="True">
+					<description>ID of department in which the employee works</description>
+				</field>
+				<field name="PHONENO" alt_name="Phone Number" type="String" size="4" precision="4" readonly="True">
+					<description>Employee telephone number</description>
+				</field>
+				<field name="HIREDATE" alt_name="Hire Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Date of hire</description>
+				</field>
+				<field name="JOB" alt_name="Job" type="String" size="8" precision="8" readonly="True">
+					<description>Job held by the employee</description>
+				</field>
+				<field name="EDLEVEL" alt_name="Education" type="Int16" size="2" precision="5" nullable="False" readonly="True">
+					<description>Number of years of formal education</description>
+				</field>
+				<field name="SEX" alt_name="Sex" type="String" size="1" precision="1" readonly="True">
+					<description>Sex of the employee (M or F)</description>
+				</field>
+				<field name="BIRTHDATE" alt_name="Birth Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Date of birth</description>
+				</field>
+				<field name="SALARY" alt_name="Salary" type="Decimal" size="34144256" precision="9" readonly="True">
+					<description>Yearly salary in dollars</description>
+				</field>
+				<field name="BONUS" alt_name="Bonus" type="Decimal" size="34144256" precision="9" readonly="True">
+					<description>Yearly bonus in dollars</description>
+				</field>
+				<field name="COMM" alt_name="Comission" type="Decimal" size="34144256" precision="9" readonly="True">
+					<description>Yearly commission in dollars</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>DEPARTMENT</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="WORKDEPT" referenced_field="DEPTNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="EMPPROJACT" alt_name="Employee Activities">
+				<description>The employee to project activity table identifies the employee who performs each activity listed for each project. The employee's level of involvement (full-time or part-time) and schedule for activity are also in the table.</description>
+				<field name="EMPNO" alt_name="Employee ID" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Employee number</description>
+				</field>
+				<field name="PROJNO" alt_name="Project ID" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Project number</description>
+				</field>
+				<field name="ACTNO" alt_name="Activity ID" type="Int16" size="2" precision="5" nullable="False" readonly="True">
+					<description>Activity number</description>
+				</field>
+				<field name="EMPTIME" alt_name="Time Ratio" type="Decimal" size="33882112" precision="5" readonly="True">
+					<description>A proportion of the employee's full time (between 0.00 and 1.00) to be spent on the project from Start Date to End Date</description>
+				</field>
+				<field name="EMSTDATE" alt_name="Start Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Start date of the activity</description>
+				</field>
+				<field name="EMENDATE" alt_name="End Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Completion date of the activity</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>PROJACT</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="PROJNO" referenced_field="PROJNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>PROJACT</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="ACTNO" referenced_field="ACTNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>PROJACT</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="EMSTDATE" referenced_field="ACSTDATE" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="PROJACT" alt_name="Project Activities">
+				<description>The project activity table describes each project that the business is currently undertaking. Data contained in each row include the project number, activity number, and schedule dates.</description>
+				<field name="PROJNO" alt_name="Project ID" primary_key="True" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Project number</description>
+				</field>
+				<field name="ACTNO" alt_name="Activity ID" primary_key="True" type="Int16" size="2" precision="5" nullable="False" readonly="True">
+					<description>Activity number</description>
+				</field>
+				<field name="ACSTAFF" alt_name="Staffing" type="Decimal" size="33882112" precision="5" readonly="True">
+					<description>Estimated mean staffing</description>
+				</field>
+				<field name="ACSTDATE" alt_name="Start Date" primary_key="True" type="DateTime" size="10" precision="10" nullable="False" readonly="True">
+					<description>Activity start date</description>
+				</field>
+				<field name="ACENDATE" alt_name="End Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Activity end date</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>PROJECT</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="PROJNO" referenced_field="PROJNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+			<table name="PROJECT" alt_name="Projects">
+				<description>The project table describes each project that the business is currently undertaking. Data contained in each row include the project number, name, person responsible, and schedule dates.</description>
+				<field name="PROJNO" alt_name="Project ID" primary_key="True" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Project number</description>
+				</field>
+				<field name="PROJNAME" alt_name="Project Name" type="String" size="24" precision="24" nullable="False" readonly="True">
+					<description>Project name</description>
+				</field>
+				<field name="DEPTNO" alt_name="Department ID" type="String" size="3" precision="3" nullable="False" readonly="True">
+					<description>Department number of the department responsible for the project</description>
+				</field>
+				<field name="RESPEMP" alt_name="Employee ID" type="String" size="6" precision="6" nullable="False" readonly="True">
+					<description>Employee number of the person responsible for the project</description>
+				</field>
+				<field name="PRSTAFF" alt_name="Staffing" type="Decimal" size="33882112" precision="5" readonly="True">
+					<description>Estimated mean staffing</description>
+				</field>
+				<field name="PRSTDATE" alt_name="Start Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Estimated start date of the project</description>
+				</field>
+				<field name="PRENDATE" alt_name="End Date" type="DateTime" size="10" precision="10" readonly="True">
+					<description>Estimated end date of the project</description>
+				</field>
+				<field name="MAJPROJ" alt_name="Main Project" type="String" size="6" precision="6" readonly="True">
+					<description>Controlling project number for sub projects</description>
+				</field>
+				<foreignkey>
+					<referenced_object>
+						<name>DEPARTMENT</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="DEPTNO" referenced_field="DEPTNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+				<foreignkey>
+					<referenced_object>
+						<name>EMPLOYEE</name>
+						<name>ADMINISTRATOR</name>
+						<name>SAMPLE</name>
+					</referenced_object>
+					<referencing_field name="RESPEMP" referenced_field="EMPNO" />
+					<referencing_cardinality>Unknown</referencing_cardinality>
+					<referenced_cardinality>Unknown</referenced_cardinality>
+				</foreignkey>
+			</table>
+		</schema>
+	</database>
+</metadata>

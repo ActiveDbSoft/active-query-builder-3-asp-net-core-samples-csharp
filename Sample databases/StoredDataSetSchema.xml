@@ -1,0 +1,103 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Employee">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeID" msdata:ReadOnly="true" msdata:AutoIncrement="true" type="xs:int" />
+              <xs:element name="NationalIDNumber">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ContactID" type="xs:int" />
+              <xs:element name="LoginID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="256" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ManagerID" type="xs:int" minOccurs="0" />
+              <xs:element name="Title">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BirthDate" type="xs:dateTime" />
+              <xs:element name="MaritalStatus">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Gender">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="HireDate" type="xs:dateTime" />
+              <xs:element name="SalariedFlag" type="xs:boolean" />
+              <xs:element name="VacationHours" type="xs:short" />
+              <xs:element name="SickLeaveHours" type="xs:short" />
+              <xs:element name="CurrentFlag" type="xs:boolean" />
+              <xs:element name="rowguid" msdata:DataType="System.Guid, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" />
+              <xs:element name="ModifiedDate" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="EmployeeAddress">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeID" type="xs:int" />
+              <xs:element name="AddressID" type="xs:int" />
+              <xs:element name="rowguid" msdata:DataType="System.Guid, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" />
+              <xs:element name="ModifiedDate" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="EmployeePayHistory">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeID" type="xs:int" />
+              <xs:element name="RateChangeDate" type="xs:dateTime" />
+              <xs:element name="Rate" type="xs:decimal" />
+              <xs:element name="PayFrequency" type="xs:unsignedByte" />
+              <xs:element name="ModifiedDate" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Employee" />
+      <xs:field xpath="mstns:EmployeeID" />
+    </xs:unique>
+    <xs:unique name="EmployeeAddress_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:EmployeeAddress" />
+      <xs:field xpath="mstns:EmployeeID" />
+      <xs:field xpath="mstns:AddressID" />
+    </xs:unique>
+    <xs:unique name="EmployeePayHistory_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:EmployeePayHistory" />
+      <xs:field xpath="mstns:EmployeeID" />
+      <xs:field xpath="mstns:RateChangeDate" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="FK_Employee_Employee_ManagerID" msdata:parent="Employee" msdata:child="Employee" msdata:parentkey="EmployeeID" msdata:childkey="ManagerID" />
+      <msdata:Relationship name="FK_EmployeeAddress_Employee_EmployeeID" msdata:parent="Employee" msdata:child="EmployeeAddress" msdata:parentkey="EmployeeID" msdata:childkey="EmployeeID" />
+      <msdata:Relationship name="FK_EmployeePayHistory_Employee_EmployeeID" msdata:parent="Employee" msdata:child="EmployeePayHistory" msdata:parentkey="EmployeeID" msdata:childkey="EmployeeID" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>
