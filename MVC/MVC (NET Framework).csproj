@@ -15,10 +15,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.4.3.0" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.5.14.1126" />
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.5.14.1126" />
-    <PackageReference Include="ActiveQueryBuilder.Core" Version="3.5.14.1126" />
   </ItemGroup>
   
   <ItemGroup>
@@ -38,6 +34,16 @@
 
   <ItemGroup>
     <None Include="ActiveQueryBuilder.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.5.15.1127" />
+    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.5.15.1127" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.5.15.1127" />
+    
+    
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.4.4" />
+    
   </ItemGroup>
 
 </Project>

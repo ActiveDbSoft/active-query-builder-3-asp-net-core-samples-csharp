@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<user_queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.activequerybuilder.com/schemas/metadata2.xsd">
+<user_queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.activequerybuilder.com/schemas/metadata2.xsd">
 	<metadata>
-		<userquery name="New Query">
-			<expression>Select * From Categories as c1</expression>
-		</userquery>
-		<userquery name="New Query (1)">
-			<expression>Select * From Products as p1</expression>
+		<userquery name="Новый запрос">
+			<expression>Select o.OrderID,
+  c.CustomerID,
+  s.ShipperID,
+  o.ShipCity
+From Orders o
+  Inner Join Customers c On o.CustomerID = c.CustomerID
+  Inner Join Shippers s On s.ShipperID = o.OrderID
+Where o.ShipCity = 'A'</expression>
 		</userquery>
 	</metadata>
 	<structure load_metadata_children="False">
@@ -24,7 +28,6 @@
 				<case_sensitive>False</case_sensitive>
 			</filter_item>
 		</filter>
-		<structure_item load_metadata_children="True" metadata_name="[New Query]" image_index="-1" />
-		<structure_item load_metadata_children="True" metadata_name="[New Query (1)]" image_index="-1" />
+		<structure_item load_metadata_children="True" metadata_name="[Новый запрос]" image_index="-1" />
 	</structure>
 </user_queries>
