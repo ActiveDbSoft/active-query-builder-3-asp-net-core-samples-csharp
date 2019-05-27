@@ -1,0 +1,121 @@
+﻿@using ActiveQueryBuilder.Web.Core.HtmlHelpers
+@model ActiveQueryBuilder.Web.Server.QueryBuilder
+@{
+    ViewBag.Title = "Verifying the existence of required query elements";
+    var controls = Html.QueryBuilder(Model, ViewContext.HttpContext.Request);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Verifying the existence of required query elements</h1>
+        <p>Using both client and server-side events to abort user actions, displaying notifications to users from server and client side.</p>
+    </div>
+    <div class="col-md-12">
+        @controls.GetHtml()
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                @controls.ObjectTreeView().GetHtml()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    @controls.SubQueryNavigationBar().GetHtml()
+                    @controls.Canvas().GetHtml()
+                    @controls.StatusBar().GetHtml()
+                    @controls.Grid().GetHtml()
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                @controls.SqlEditor().GetHtml()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.6/jquery.jgrowl.min.css" type="text/css" rel="stylesheet" />
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.6/jquery.jgrowl.min.js"></script>
+    <script>
+        var queryBuilder;
+
+        var required = {
+            table: 'Orders', field: { Name: "OrderID", Expression: "o.OrderID" }
+        };
+
+        AQB.Web.onQueryBuilderReady(function (qb) {
+            queryBuilder = qb;
+
+            qb.on(qb.Events.DataSourceDeleting, onDataSourceDeleting);
+            qb.on(qb.Events.DataSourceFieldRemoving, onDataSourceFieldRemoving);
+
+            qb.GridComponent.on(qb.GridComponent.Events.GridOnReload, onGridOnReload);
+        });
+
+        function onDataSourceDeleting(dataSource, abort) {
+            if (isMainQuery && dataSource.mdo.Name === required.table)
+                abort.abort = true;
+        }
+
+        function onDataSourceFieldRemoving(field, abort) {
+            if (isMainQuery() && field.field && field.field.object.NameStr === required.field.Name)
+                abort.abort = true;
+        }
+
+        function isMainQuery() {
+            return queryBuilder.ActiveSubQueryPath.length === 0;
+        }
+
+        function onGridOnReload(rows) {
+            unlockRows(rows);
+
+            if (!isMainQuery())
+                return;
+
+            for (var row in rows) {
+                if (!rows.hasOwnProperty(row))
+                    continue;
+
+                var dto = rows[row].dto();
+                if (dto.Expression === required.field.Expression) {
+                    lockRow(rows[row], true);
+                }
+            }
+        }
+
+        function unlockRows(rows) {
+            for (var row in rows) {
+                if (!rows.hasOwnProperty(row))
+                    continue;
+
+                lockRow(rows[row], false);
+            }
+        }
+
+        function lockRow(row, locked) {
+            var types = queryBuilder.MetaData.FieldParamType;
+            var cells = row._cellContainer.cells;
+
+            var lockCells = [cells[types.visible], cells[types.expression], cells[types.alias],
+                cells[types.aggregate]];
+
+            // push rest condition cells
+            for (var i = types.condition; i < 12; i++)
+                lockCells.push(cells[i]);
+
+            for (var i = 0; i < lockCells.length; i++) {
+                lockCells[i].element.css({ pointerEvents: locked ? 'none' : '' });
+                lockCells[i].element.css({ opacity: locked ? '0.5' : '' });
+            }
+        }
+    </script>
+}

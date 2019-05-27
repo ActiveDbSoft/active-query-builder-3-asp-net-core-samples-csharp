@@ -88,10 +88,15 @@ namespace ASP.NET_Core.Controllers
                 var data = DataBaseHelper.GetData(conn, sql, _params);
                 return Json(data);
             }
-            catch
+            catch (Exception e)
             {
-                return new BadRequestResult();
+                return Json(new ErrorOutput { Error = e.Message });
             }
+        }
+
+        private class ErrorOutput
+        {
+            public string Error { get; set; }
         }
 
         /// <summary>
