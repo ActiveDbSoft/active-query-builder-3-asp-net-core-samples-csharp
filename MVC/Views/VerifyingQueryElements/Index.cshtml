@@ -49,7 +49,7 @@
         var queryBuilder;
 
         var required = {
-            table: 'Orders', field: { Name: "OrderID", Expression: "o.OrderID" }
+            table: 'Orders', field: { name: "OrderID", expression: "o.OrderID" }
         };
 
         AQB.Web.onQueryBuilderReady(function (qb) {
@@ -62,13 +62,20 @@
         });
 
         function onDataSourceDeleting(dataSource, abort) {
-            if (isMainQuery && dataSource.mdo.Name === required.table)
+            if (isMainQuery && dataSource.mdo.Name === required.table) {
                 abort.abort = true;
+                queryBuilder.StatusBarComponent.messageWarning('Removing the required table is locked.');
+            }
         }
 
         function onDataSourceFieldRemoving(field, abort) {
-            if (isMainQuery() && field.field && field.field.object.NameStr === required.field.Name)
+            if (isMainQuery() &&
+                field.field &&
+                field.field.object.NameStr === required.field.name &&
+                field.table.Name === required.table) {
                 abort.abort = true;
+                queryBuilder.StatusBarComponent.messageWarning('Removing the required field is locked.');
+            }
         }
 
         function isMainQuery() {
@@ -86,7 +93,7 @@
                     continue;
 
                 var dto = rows[row].dto();
-                if (dto.Expression === required.field.Expression) {
+                if (dto.Expression === required.field.expression) {
                     lockRow(rows[row], true);
                 }
             }
