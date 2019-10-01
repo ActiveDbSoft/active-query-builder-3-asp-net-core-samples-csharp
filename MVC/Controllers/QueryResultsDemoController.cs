@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using ActiveQueryBuilder.Core;
 using ActiveQueryBuilder.Core.QueryTransformer;
-using ActiveQueryBuilder.Web.Core;
 using ActiveQueryBuilder.Web.Server;
 using ActiveQueryBuilder.Web.Server.Services;
 using ASP.NET_Core.Helpers;
@@ -50,7 +50,8 @@ namespace ASP.NET_Core.Controllers
             return View(qb);
         }
 
-        public ActionResult GetData(GridModel m)
+        [HttpPost]
+        public ActionResult GetData([FromBody] GridModel m)
         {
             var qt = _qts.Get(instanceId);
 
@@ -75,22 +76,54 @@ namespace ASP.NET_Core.Controllers
 
         private ActionResult GetData(QueryTransformer qt, Param[] _params)
         {
-            var conn = DataBaseHelper.CreateSqLiteConnection(GetDataBasePath());
+            try
+            {
+                var data = Execute(qt, _params);
+                return Json(data);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorOutput { Error = e.Message });
+            }
+        }
 
+        private List<Dictionary<string, object>> Execute(QueryTransformer qt, Param[] _params)
+        {
+            var conn = qt.Query.SQLContext.MetadataProvider.Connection;
             var sql = qt.SQL;
 
             if (_params != null)
                 foreach (var p in _params)
                     p.DataType = qt.Query.QueryParameters.First(qp => qp.FullName == p.Name).DataType;
 
+            return DataBaseHelper.GetData(conn, sql, _params);
+        }
+
+        [HttpPost]
+        public ActionResult SelectRecordsCount(Param[] _params)
+        {
+            var qb = _aqbs.Get(instanceId);
+            var qt = _qts.Get(instanceId);
+            var qtForSelectRecordsCount = _qts.Create(instanceId + "_for_records_count");
+
+            qtForSelectRecordsCount.QueryProvider = qb.SQLQuery;
+            qtForSelectRecordsCount.Assign(qt);
+            qtForSelectRecordsCount.Skip("");
+            qtForSelectRecordsCount.Take("");
+            qtForSelectRecordsCount.SelectRecordsCount("recCount");
+
             try
             {
-                var data = DataBaseHelper.GetData(conn, sql, _params);
-                return Json(data);
+                var data = Execute(qtForSelectRecordsCount, _params);
+                return Json(data.First().Values.First());
             }
             catch (Exception e)
             {
                 return Json(new ErrorOutput { Error = e.Message });
+            }
+            finally
+            {
+                _qts.Remove(instanceId + "_for_records_count");
             }
         }
 

@@ -128,6 +128,26 @@ namespace AspNetCoreJavaScript.Controllers
             return queryBuilder;
         }
 
+        [HttpPost]
+        public ActionResult SelectRecordsCount([FromBody] Param[] _params)
+        {
+            var qb = _aqbs.Get(instanceId);
+            var qt = _qts.Get(instanceId);
+            var qtForSelectRecordsCount = _qts.Create(instanceId + "_for_records_count");
+
+            qtForSelectRecordsCount.QueryProvider = qb.SQLQuery;
+            qtForSelectRecordsCount.Assign(qt);
+            qtForSelectRecordsCount.Skip("");
+            qtForSelectRecordsCount.Take("");
+            qtForSelectRecordsCount.SelectRecordsCount("recCount");
+
+            var result = GetData(qtForSelectRecordsCount, _params);
+
+            _qts.Remove(instanceId + "_for_records_count");
+
+            return result;
+        }
+
         private string GetDataBasePath()
         {
             var path = _config["SqLiteDataBase"];
