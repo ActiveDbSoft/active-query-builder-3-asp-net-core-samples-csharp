@@ -4,6 +4,7 @@
     <TargetFramework>net462</TargetFramework>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
     <Configurations>Debug;Release</Configurations>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,9 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.5.34.1152" />
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.5.34.1152" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.5.34.1152" />
+    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.5.35.1153" />
+    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.5.35.1153" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.5.35.1153" />
     
     
     <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.4.8." />

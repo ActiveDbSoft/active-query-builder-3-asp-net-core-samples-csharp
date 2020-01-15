@@ -5,6 +5,7 @@
     <AssemblyName>JavaScript.NETCore</AssemblyName>
     <RootNamespace>AspNetCoreJavaScript</RootNamespace>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

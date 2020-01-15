@@ -133,19 +133,21 @@ namespace AspNetCoreJavaScript.Controllers
         {
             var qb = _aqbs.Get(instanceId);
             var qt = _qts.Get(instanceId);
-            var qtForSelectRecordsCount = _qts.Create(instanceId + "_for_records_count");
+            var qtForSelectRecordsCount = new QueryTransformer { QueryProvider = qb.SQLQuery };
 
-            qtForSelectRecordsCount.QueryProvider = qb.SQLQuery;
-            qtForSelectRecordsCount.Assign(qt);
-            qtForSelectRecordsCount.Skip("");
-            qtForSelectRecordsCount.Take("");
-            qtForSelectRecordsCount.SelectRecordsCount("recCount");
+            try
+            {
+                qtForSelectRecordsCount.Assign(qt);
+                qtForSelectRecordsCount.Skip("");
+                qtForSelectRecordsCount.Take("");
+                qtForSelectRecordsCount.SelectRecordsCount("recCount");
 
-            var result = GetData(qtForSelectRecordsCount, _params);
-
-            _qts.Remove(instanceId + "_for_records_count");
-
-            return result;
+                return GetData(qtForSelectRecordsCount, _params);
+            }
+            finally
+            {
+                qtForSelectRecordsCount.Dispose();
+            }
         }
 
         private string GetDataBasePath()

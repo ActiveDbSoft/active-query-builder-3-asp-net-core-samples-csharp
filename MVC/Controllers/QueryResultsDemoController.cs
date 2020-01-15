@@ -104,26 +104,28 @@ namespace ASP.NET_Core.Controllers
         {
             var qb = _aqbs.Get(instanceId);
             var qt = _qts.Get(instanceId);
-            var qtForSelectRecordsCount = _qts.Create(instanceId + "_for_records_count");
-
-            qtForSelectRecordsCount.QueryProvider = qb.SQLQuery;
-            qtForSelectRecordsCount.Assign(qt);
-            qtForSelectRecordsCount.Skip("");
-            qtForSelectRecordsCount.Take("");
-            qtForSelectRecordsCount.SelectRecordsCount("recCount");
+            var qtForSelectRecordsCount = new QueryTransformer { QueryProvider = qb.SQLQuery };
 
             try
             {
-                var data = Execute(qtForSelectRecordsCount, _params);
-                return Json(data.First().Values.First());
-            }
-            catch (Exception e)
-            {
-                return Json(new ErrorOutput { Error = e.Message });
+                qtForSelectRecordsCount.Assign(qt);
+                qtForSelectRecordsCount.Skip("");
+                qtForSelectRecordsCount.Take("");
+                qtForSelectRecordsCount.SelectRecordsCount("recCount");
+
+                try
+                {
+                    var data = Execute(qtForSelectRecordsCount, _params);
+                    return Json(data.First().Values.First());
+                }
+                catch (Exception e)
+                {
+                    return Json(new ErrorOutput {Error = e.Message});
+                }
             }
             finally
             {
-                _qts.Remove(instanceId + "_for_records_count");
+                qtForSelectRecordsCount.Dispose();
             }
         }
 
