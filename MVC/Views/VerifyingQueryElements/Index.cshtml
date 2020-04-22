@@ -62,7 +62,7 @@
         });
 
         function onDataSourceDeleting(dataSource, abort) {
-            if (isMainQuery && dataSource.mdo.Name === required.table) {
+            if (isMainQuery() && dataSource.mdo.Name === required.table) {
                 abort.abort = true;
                 queryBuilder.StatusBarComponent.messageWarning('Removing the required table is locked.');
             }

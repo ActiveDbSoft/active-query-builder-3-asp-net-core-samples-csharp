@@ -13,7 +13,7 @@ namespace AspNetCoreCrossDomain.Controllers
     {
         private readonly IQueryBuilderService _aqbs;
 
-        // Use IActiveQueryBuilderServiceBase to get access to the server-side instances of Active Query Builder objects. 
+        // Use IQueryBuilderService to get access to the server-side instances of Active Query Builder objects. 
         // See the registration of this service in the Startup.cs.
         public QueryBuilderController(IQueryBuilderService aqbs)
         {

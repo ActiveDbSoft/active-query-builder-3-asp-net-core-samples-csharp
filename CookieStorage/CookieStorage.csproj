@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    
-    
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.4.10" />
-    
+    <Reference Include="ActiveQueryBuilder.Core, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\\ActiveQueryBuilder.Core.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.View, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\\ActiveQueryBuilder.View.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Core.NETCore, Version=3.6.0.400, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Server.NETCore, Version=3.6.0.400, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>	</Reference>
   </ItemGroup>
 
   <ItemGroup>

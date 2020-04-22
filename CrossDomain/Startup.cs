@@ -37,9 +37,9 @@ namespace AspNetCoreCrossDomain
             // Active Query Builder requires support for Session HttpContext. 
             services.AddSession();
             services.AddMemoryCache();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            // Register CookieQueryBuilderProvider
+            // Register TokenQueryBuilderProvider
             services.AddScoped<IQueryBuilderProvider, TokenQueryBuilderProvider>();
 
             // This service provides access to instances of QueryBuilder and QueryTranformer objects on the server.

@@ -38,13 +38,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.5.40.1158" />
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.5.40.1158" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.5.40.1158" />
-    
-    
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.4.10" />
-    
+    <Reference Include="ActiveQueryBuilder.EventMetadataProvider, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.EventMetadataProvider.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.ODBCMetadataProvider, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.ODBCMetadataProvider.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.SQLiteMetadataProvider, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.SQLiteMetadataProvider.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.Core, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.Core.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.View, Version=3.6.0.1159, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.View.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Core, Version=3.6.0.400, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.Web.Core.dll</HintPath>	</Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Server, Version=3.6.0.400, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies\\ActiveQueryBuilder.Web.Server.dll</HintPath>	</Reference>
   </ItemGroup>
 
 </Project>

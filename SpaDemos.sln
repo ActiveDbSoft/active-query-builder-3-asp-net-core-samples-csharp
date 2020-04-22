@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularSpa", "AngularSpa\AngularSpa.csproj", "{88BFDEF1-092F-443A-BA68-3D78745BEC0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactSpa", "ReactSpa\ReactSpa.csproj", "{A0AECBAA-3E13-432E-8E51-5499A14CD921}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VueSpa", "VueSpa\VueSpa.csproj", "{098916C0-AA09-43BE-9A1C-603AEE6A65BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88BFDEF1-092F-443A-BA68-3D78745BEC0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88BFDEF1-092F-443A-BA68-3D78745BEC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88BFDEF1-092F-443A-BA68-3D78745BEC0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88BFDEF1-092F-443A-BA68-3D78745BEC0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0AECBAA-3E13-432E-8E51-5499A14CD921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0AECBAA-3E13-432E-8E51-5499A14CD921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0AECBAA-3E13-432E-8E51-5499A14CD921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0AECBAA-3E13-432E-8E51-5499A14CD921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{098916C0-AA09-43BE-9A1C-603AEE6A65BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{098916C0-AA09-43BE-9A1C-603AEE6A65BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{098916C0-AA09-43BE-9A1C-603AEE6A65BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{098916C0-AA09-43BE-9A1C-603AEE6A65BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75CB5A5D-05E3-443A-BA4B-43032D2B89BC}
+	EndGlobalSection
+EndGlobal
