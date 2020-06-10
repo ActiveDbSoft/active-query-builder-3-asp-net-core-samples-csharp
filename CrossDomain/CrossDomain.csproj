@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>CrossDomain.NETCore</AssemblyName>
     <RootNamespace>AspNetCoreCrossDomain</RootNamespace>
+    <Configurations>Debug;Release;Docker</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,14 +14,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <None Update="AdventureWorks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
-  <ItemGroup>
-    
-    
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.6.1.401" />
-    
-  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Docker' ">
+      <ItemGroup>
+        <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="*" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        
+        
+        <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.6.4.404" />
+        
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>

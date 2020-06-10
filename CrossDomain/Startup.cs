@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActiveQueryBuilder.Web.Core;
 using ActiveQueryBuilder.Web.Server.Infrastructure.Providers;
-using AspNetCoreCrossDomain.Middleware;
 using AspNetCoreCrossDomain.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +51,8 @@ namespace AspNetCoreCrossDomain
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod().WithHeaders("query-builder-token"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -65,7 +66,6 @@ namespace AspNetCoreCrossDomain
             app.UseSession();
 
             // Active Query Builder server requests handler.
-            app.UseMiddleware<CrossOriginMiddleware>();
             app.UseActiveQueryBuilder();
 
             app.UseStaticFiles();
