@@ -36,19 +36,9 @@ namespace AspNetCoreJavaScript.Controllers
 
         public ActionResult Index()
         {
-            // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(instanceId);
-            var qt = _qts.Get(instanceId);
+            Initialize();
 
-            if (qb == null)
-                qb = CreateQueryBuilder();
-
-            if (qt == null)
-                qt = CreateQueryTransformer(qb.SQLQuery);
-
-            ViewBag.QueryTransformer = qt;
-
-            return View(qb);
+            return View();
         }
 
         public ActionResult GetData(GridModel m)
@@ -98,6 +88,19 @@ namespace AspNetCoreJavaScript.Controllers
         private class ErrorOutput
         {
             public string Error { get; set; }
+        }
+
+        public void Initialize()
+        {
+            // Get an instance of the QueryBuilder object
+            var qb = _aqbs.Get(instanceId);
+            var qt = _qts.Get(instanceId);
+
+            if (qb == null)
+                qb = CreateQueryBuilder();
+
+            if (qt == null)
+                CreateQueryTransformer(qb.SQLQuery);
         }
 
         /// <summary>
@@ -169,14 +172,12 @@ namespace AspNetCoreJavaScript.Controllers
         /// </summary>
         /// <param name="query">SQL Query to transform.</param>
         /// <returns>Returns instance of the QueryTransformer object.</returns>
-        private QueryTransformer CreateQueryTransformer(SQLQuery query)
+        private void CreateQueryTransformer(SQLQuery query)
         {
             var qt = _qts.Create(instanceId);
 
             qt.QueryProvider = query;
             qt.AlwaysExpandColumnsInQuery = true;
-
-            return qt;
         }
     }
 

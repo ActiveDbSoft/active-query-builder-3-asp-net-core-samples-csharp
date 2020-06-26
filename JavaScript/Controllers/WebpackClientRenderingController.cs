@@ -33,11 +33,11 @@ namespace AspNetCoreJavaScript.Controllers
             CreateQueryBuilder();
             return View();
         }
-        
+
         /// <summary>
         /// Creates and initializes new instance of the QueryBuilder object if it doesn't exist. 
         /// </summary>
-        private void CreateQueryBuilder()
+        public void CreateQueryBuilder()
         {
             // Get an instance of the QueryBuilder object
             var qb = _aqbs.Get(instanceId);

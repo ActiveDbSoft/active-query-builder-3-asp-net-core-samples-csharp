@@ -20,7 +20,7 @@ export class QuerybuilderComponent implements OnInit {
     const grid = document.getElementById('grid');
     const sql = document.getElementById('sql');
 
-    AQB.Web.UI.QueryBuilder(name, qb, { useDefaultTheme: false });
+    AQB.Web.UI.QueryBuilder(name, qb, { useDefaultTheme: false, reinitUrl: 'http://localhost:1067/AngularClientRendering/CreateQueryBuilder' });
     AQB.Web.UI.ObjectTreeView(name, treeview);
     AQB.Web.UI.SubQueryNavigationBar(name, navbar);
     AQB.Web.UI.Canvas(name, canvas);

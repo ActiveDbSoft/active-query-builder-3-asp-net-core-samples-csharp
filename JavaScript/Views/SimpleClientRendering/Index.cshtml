@@ -46,11 +46,11 @@
     <script type="text/javascript" src="/aqb.client.js"></script>
     
     <script type="text/javascript">
-        // Instance identifier string to bind to the QueryBiulder component on the server side. See the SimpleQueryBuilderController.cs code for details.
+        // Instance identifier string to bind to the QueryBuilder component on the server side. See the SimpleQueryBuilderController.cs code for details.
         var name = 'SimpleClient';
 
         $(function () {
-            AQB.Web.UI.QueryBuilder(name, $('#qb'));
+            AQB.Web.UI.QueryBuilder(name, $('#qb'), { reinitUrl: '/SimpleClientRendering/CreateQueryBuilder' });
             AQB.Web.UI.ObjectTreeView(name, $('#treeview'));
             AQB.Web.UI.SubQueryNavigationBar(name, $('#navbar'));
             AQB.Web.UI.Canvas(name, $('#canvas'));

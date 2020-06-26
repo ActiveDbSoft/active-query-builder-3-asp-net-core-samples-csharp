@@ -51,7 +51,7 @@
             var instanceId = "AngularJS";
             var ui = $window.AQB.Web.UI;
 
-            ui.QueryBuilder(instanceId, $document.find('#qb'));
+            ui.QueryBuilder(instanceId, $document.find('#qb'), { reinitUrl: '/AngularJSClientRendering/CreateQueryBuilder' });
             ui.ObjectTreeView(instanceId, $document.find('#treeview'));
             ui.SubQueryNavigationBar(instanceId, $document.find('#navbar'));
             ui.Canvas(instanceId, $document.find('#canvas'));

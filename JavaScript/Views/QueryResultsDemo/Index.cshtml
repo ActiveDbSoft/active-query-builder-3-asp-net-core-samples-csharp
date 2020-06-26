@@ -129,7 +129,7 @@
         var recordsCountUrl = "QueryResultsDemo/SelectRecordsCount";
 
         $(function () {
-            AQB.Web.UI.QueryBuilder(name, $('#qb'));
+            AQB.Web.UI.QueryBuilder(name, $('#qb'), { reinitUrl: '/QueryResultsDemo/Initialize' });
             AQB.Web.UI.CriteriaBuilder(name, $('#cb'));
             AQB.Web.UI.ObjectTreeView(name, $('#treeview'));
             AQB.Web.UI.SubQueryNavigationBar(name, $('#navbar'));
@@ -148,7 +148,6 @@
             var dataExplorer = new JsonDataExplorer(container, dataUrl, recordsCountUrl);
 
             QueryResultsDemo(dataExplorer);
-
         });
     </script>
 }

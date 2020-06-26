@@ -111,12 +111,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-        // Instance identifier string to bind to the QueryBiulder component on the server side. See the DoubleClientRenderingController.cs code for details.
+        // Instance identifier string to bind to the QueryBuilder component on the server side. See the DoubleClientRenderingController.cs code for details.
         var instanceId1 = 'FirstClient';
         var instanceId2 = 'SecondClient';
 
         $(function () {
-            AQB.Web.UI.QueryBuilder(instanceId1, $('#qb1'));
+            AQB.Web.UI.QueryBuilder(instanceId1, $('#qb1'), { reinitUrl: '/DoubleClientRendering/CreateFirstQueryBuilder' });
             AQB.Web.UI.ObjectTreeView(instanceId1, $('#treeview1'));
             AQB.Web.UI.SubQueryNavigationBar(instanceId1, $('#navbar1'));
             AQB.Web.UI.Canvas(instanceId1, $('#canvas1'));
@@ -124,7 +124,7 @@
             AQB.Web.UI.Grid(instanceId1, $('#grid1'));
             AQB.Web.UI.SqlEditor(instanceId1, $('#sql1'));
 
-            AQB.Web.UI.QueryBuilder(instanceId2, $('#qb2'));
+            AQB.Web.UI.QueryBuilder(instanceId2, $('#qb2'), { reinitUrl: '/DoubleClientRendering/CreateSecondQueryBuilder' });
             AQB.Web.UI.ObjectTreeView(instanceId2, $('#treeview2'));
             AQB.Web.UI.SubQueryNavigationBar(instanceId2, $('#navbar2'));
             AQB.Web.UI.Canvas(instanceId2, $('#canvas2'));

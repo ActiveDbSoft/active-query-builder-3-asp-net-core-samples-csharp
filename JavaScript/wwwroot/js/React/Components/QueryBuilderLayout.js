@@ -3,12 +3,12 @@ import AQB from '../../../aqb.client';
 
 export default class QueryBuilderLayout extends Component {
     componentDidMount() {
-        // Instance identifier string to bind to the QueryBiulder component on the server side.
+        // Instance identifier string to bind to the QueryBuilder component on the server side.
         // See the ReactQueryBuilderController.cs code for details.
         var name = 'React';
 
         window.AQB = AQB;
-        AQB.Web.UI.QueryBuilder(name, this.querybuilder);
+        AQB.Web.UI.QueryBuilder(name, this.querybuilder, { reinitUrl: 'http://localhost:1067/ReactClientRendering/CreateQueryBuilder' });
         AQB.Web.UI.ObjectTreeView(name, this.treeview);
         AQB.Web.UI.SubQueryNavigationBar(name, this.navbar);
         AQB.Web.UI.Canvas(name, this.canvas);

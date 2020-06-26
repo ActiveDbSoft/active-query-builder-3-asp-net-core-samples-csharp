@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - demo
+      - api
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    ports:
+      - 80:80
+      - 443:443
+
+  db:
+    build:
+      context: ./db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 3903312
+      
+  api:
+    depends_on:
+      - db    
+    image: activedbsoft/aspnetdemosite
+    environment:
+      - ASPNETCORE_URLS=http://+:4200
+    expose:
+      - 4200

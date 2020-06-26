@@ -100,11 +100,11 @@
     <script src="/layout.mobile.js"></script>
 
     <script type="text/javascript">
-        // Instance identifier string to bind to the QueryBiulder component on the server side. See the MobileDemoController.cs code for details.
+        // Instance identifier string to bind to the QueryBuilder component on the server side. See the MobileDemoController.cs code for details.
         var name = 'Mobile';
 
         $(function () {
-            AQB.Web.UI.QueryBuilder(name, $('#qb'));
+            AQB.Web.UI.QueryBuilder(name, $('#qb'), { reinitUrl: '/MobileDemo/CreateQueryBuilder' });
             AQB.Web.UI.ObjectTreeView(name, $('#treeview'));
             AQB.Web.UI.SubQueryNavigationBar(name, $('#navbar'));
             AQB.Web.UI.Canvas(name, $('#canvas'));

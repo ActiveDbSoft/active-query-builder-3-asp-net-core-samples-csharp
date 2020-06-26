@@ -1,6 +1,6 @@
 const AQB = require('../../aqb.client.js');
 
-// Instance identifier string to bind to the QueryBiulder component on the server side.
+// Instance identifier string to bind to the QueryBuilder component on the server side.
 // See the ElectronQueryBuilderController.cs code for details.
 var instanceId = 'Electron';
 

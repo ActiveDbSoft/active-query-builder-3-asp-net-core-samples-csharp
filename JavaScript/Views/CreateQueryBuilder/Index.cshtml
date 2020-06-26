@@ -49,11 +49,11 @@
 @section scripts
 {
     <script>
-        // Instance identifier string to bind to the QueryBiulder component on the server side. See the CreateQueryBuilderController.cs code for details.
+        // Instance identifier string to bind to the QueryBuilder component on the server side. See the CreateQueryBuilderController.cs code for details.
         var instanceId = 'UniqueQueryBuilderName';
 
         $('#render').click(function () {
-            AQB.Web.UI.QueryBuilder(instanceId, $('#qb'));
+            AQB.Web.UI.QueryBuilder(instanceId, $('#qb'), { reinitUrl: '/CreateQueryBuilder/CreateQueryBuilder?name=' + instanceId });
             AQB.Web.UI.ObjectTreeView(instanceId, $('#treeview'));
             AQB.Web.UI.SubQueryNavigationBar(instanceId, $('#navbar'));
             AQB.Web.UI.Canvas(instanceId, $('#canvas'));

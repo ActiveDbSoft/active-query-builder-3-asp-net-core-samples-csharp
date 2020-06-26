@@ -36,7 +36,7 @@ namespace AspNetCoreJavaScript.Controllers
         /// <summary>
         /// Creates and initializes the first instance of the QueryBuilder object if it doesn't exist. 
         /// </summary>
-        private void CreateFirstQueryBuilder()
+        public void CreateFirstQueryBuilder()
         {
             // Get an instance of the QueryBuilder object
             var queryBuilder = _aqbs.Get("FirstClient");
@@ -61,7 +61,7 @@ namespace AspNetCoreJavaScript.Controllers
         /// <summary>
         /// Creates and initializes the second instance of the QueryBuilder object if it doesn't exist. 
         /// </summary>
-        private void CreateSecondQueryBuilder()
+        public void CreateSecondQueryBuilder()
         {
             // Get an instance of the QueryBuilder object
             var queryBuilder = _aqbs.Get("SecondClient");

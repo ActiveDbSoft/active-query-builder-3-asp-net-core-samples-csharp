@@ -36,7 +36,7 @@ namespace AspNetCoreJavaScript.Controllers
         /// <summary>
         /// Creates and initializes new instance of the QueryBuilder object if it doesn't exist. 
         /// </summary>
-        private void CreateQueryBuilder()
+        public void CreateQueryBuilder()
         {
             // Get an instance of the QueryBuilder object
             if (_aqbs.Get(instanceId) != null)

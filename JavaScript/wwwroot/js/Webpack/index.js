@@ -1,6 +1,6 @@
 import AQB from '../../aqb.client';
 
-// Instance identifier string to bind to the QueryBiulder component on the server side.
+// Instance identifier string to bind to the QueryBuilder component on the server side.
 // See the WebpackQueryBuilderController.cs code for details.
 var name = 'Webpack';
 
@@ -13,7 +13,7 @@ var statusbar = document.getElementById('statusbar');
 var grid = document.getElementById('grid');
 var sql = document.getElementById('sql');
 
-AQB.Web.UI.QueryBuilder(name, qb);
+AQB.Web.UI.QueryBuilder(name, qb, { reinitUrl: 'http://localhost:1067/WebpackClientRendering/CreateQueryBuilder' });
 AQB.Web.UI.ObjectTreeView(name, treeview);
 AQB.Web.UI.SubQueryNavigationBar(name, navbar);
 AQB.Web.UI.Canvas(name, canvas);
