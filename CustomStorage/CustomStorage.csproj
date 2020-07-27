@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.6.9.1166" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.6.10.1167" />
     
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.6.9.409" />
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.6.10.410" />
     
   </ItemGroup>
 
