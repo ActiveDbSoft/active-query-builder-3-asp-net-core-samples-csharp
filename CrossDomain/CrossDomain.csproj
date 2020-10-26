@@ -29,7 +29,7 @@
       <ItemGroup>
         
         
-        <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.7.2.419" />
+        <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.7.4.422" />
         
       </ItemGroup>
     </Otherwise>
