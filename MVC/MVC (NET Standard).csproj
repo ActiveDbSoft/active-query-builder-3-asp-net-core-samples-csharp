@@ -43,11 +43,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.7.4.1178" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.7.4.1178" />
+    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.7.5.1179" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.7.5.1179" />
     
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.7.4.422" />
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.7.5.423" />
     
   </ItemGroup>
 
