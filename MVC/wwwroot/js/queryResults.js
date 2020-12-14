@@ -69,7 +69,7 @@
     function testQuery(callback) {
         $.ajax({
             type: 'POST',
-            url: dataUrl,
+            url: dataExplorer.dataUrl,
             dataType: "json",
             contentType: 'application/json',
             data: JSON.stringify({

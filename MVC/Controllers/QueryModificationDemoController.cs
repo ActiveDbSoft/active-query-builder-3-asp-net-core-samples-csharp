@@ -40,18 +40,13 @@ namespace MVC_Samples.Controllers
         public ActionResult Index()
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(instanceId);
-
-            if (qb == null)
-                qb = CreateQueryBuilder();
+            var qb = _aqbs.GetOrCreate(instanceId, InitializeQueryBuilder);
 
             return View(qb);
         }
 
-        private QueryBuilder CreateQueryBuilder()
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Create(instanceId);
             queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
             
             // Denies metadata loading requests from the metadata provider
@@ -62,8 +57,6 @@ namespace MVC_Samples.Controllers
             var xml = Path.Combine(_env.WebRootPath, path);
 
             queryBuilder.MetadataContainer.ImportFromXML(xml);
-
-            return queryBuilder;
         }
 
         private bool IsTablePresentInQuery(UnionSubQuery unionSubQuery, DataSource table)

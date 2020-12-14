@@ -27,19 +27,13 @@ namespace ASP.NET_Core.Controllers
         // GET
         public IActionResult Index()
         {
-            var qb = _aqbs.Get("TagHelpers");
-
-            if (qb == null)
-                qb = CreateQueryBuilder();
+            var qb = _aqbs.GetOrCreate("TagHelpers", InitializeQueryBuilder);
 
             return View(qb);
         }
 
-        private QueryBuilder CreateQueryBuilder()
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object.
-            var queryBuilder = _aqbs.Create("TagHelpers");
-
             // Create an instance of the proper syntax provider for your database server.
             queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
 
@@ -54,8 +48,6 @@ namespace ASP.NET_Core.Controllers
 
             //Set default query.
             queryBuilder.SQL = GetDefaultSql();
-
-            return queryBuilder;
         }
 
         private string GetDefaultSql()

@@ -93,25 +93,20 @@ namespace AspNetCoreJavaScript.Controllers
         public void Initialize()
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(instanceId);
-            var qt = _qts.Get(instanceId);
-
-            if (qb == null)
-                qb = CreateQueryBuilder();
-
-            if (qt == null)
-                CreateQueryTransformer(qb.SQLQuery);
+            var qb = _aqbs.GetOrCreate(instanceId, InitializeQueryBuilder);
+            _qts.GetOrCreate(instanceId, t =>
+            {
+                t.QueryProvider = qb.SQLQuery;
+                t.AlwaysExpandColumnsInQuery = true;
+            });
         }
 
         /// <summary>
         /// Creates and initializes a new instance of the QueryBuilder object.
         /// </summary>
         /// <returns>Returns instance of the QueryBuilder object.</returns>
-        private QueryBuilder CreateQueryBuilder()
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Create(instanceId);
-
             // Create an instance of the proper syntax provider for your database server.
             queryBuilder.SyntaxProvider = new SQLiteSyntaxProvider();
 
@@ -127,8 +122,6 @@ namespace AspNetCoreJavaScript.Controllers
 
             // Assign the initial SQL query text the user sees on the _first_ page load
             queryBuilder.SQL = GetDefaultSql();
-
-            return queryBuilder;
         }
 
         [HttpPost]
@@ -165,19 +158,6 @@ namespace AspNetCoreJavaScript.Controllers
                       customers.LastName,
                       customers.FirstName
                     From customers";
-        }
-
-        /// <summary>
-        /// Creates and initializes a new instance of the QueryTransformer object.
-        /// </summary>
-        /// <param name="query">SQL Query to transform.</param>
-        /// <returns>Returns instance of the QueryTransformer object.</returns>
-        private void CreateQueryTransformer(SQLQuery query)
-        {
-            var qt = _qts.Create(instanceId);
-
-            qt.QueryProvider = query;
-            qt.AlwaysExpandColumnsInQuery = true;
         }
     }
 

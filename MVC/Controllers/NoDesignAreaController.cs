@@ -29,18 +29,13 @@ namespace MVC_Samples.Controllers
         public ActionResult Index()
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(instanceId);
-
-            if (qb == null)
-                qb = CreateQueryBuilder();
+            var qb = _aqbs.GetOrCreate(instanceId, InitializeQueryBuilder);
 
             return View(qb);
         }
 
-        private QueryBuilder CreateQueryBuilder()
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Create(instanceId);
             queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
 
             // Turn this property on to suppress parsing error messages when user types non-SELECT statements in the text editor.
@@ -59,8 +54,6 @@ namespace MVC_Samples.Controllers
             queryBuilder.MetadataContainer.ImportFromXML(xml);
 
             queryBuilder.SQL = GetDefaultSql();
-
-            return queryBuilder;
         }
 
         private string GetDefaultSql()

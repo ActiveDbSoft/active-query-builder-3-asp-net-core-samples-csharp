@@ -37,18 +37,13 @@ namespace MVC_Samples.Controllers
         public ActionResult Index()
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(InstanceId);
-
-            if (qb == null)
-                qb = CreateQueryBuilder();
+            var qb = _aqbs.GetOrCreate(InstanceId, InitializeQueryBuilder);
 
             return View(qb);
         }
 
-        private QueryBuilder CreateQueryBuilder()
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Create(InstanceId);
             queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
 
             // Denies metadata loading requests from the metadata provider
@@ -66,8 +61,6 @@ namespace MVC_Samples.Controllers
 
             //Set default query
             queryBuilder.SQL = GetDefaultSql();
-
-            return queryBuilder;
         }
 
         private void SqlQueryOnSqlUpdated(object sender, EventArgs e)

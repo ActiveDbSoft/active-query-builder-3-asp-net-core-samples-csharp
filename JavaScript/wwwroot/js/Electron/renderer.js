@@ -13,7 +13,8 @@ var statusbar = document.getElementById('statusbar');
 var grid = document.getElementById('grid');
 var sql = document.getElementById('sql');
 
-AQB.Web.host = 'http://localhost:1067';
+AQB.Web.host = 'https://localhost:44368';
+
 AQB.Web.UI.QueryBuilder(instanceId, qb);
 AQB.Web.UI.ObjectTreeView(instanceId, treeview);
 AQB.Web.UI.SubQueryNavigationBar(instanceId, navbar);
@@ -22,4 +23,4 @@ AQB.Web.UI.StatusBar(instanceId, statusbar);
 AQB.Web.UI.Grid(instanceId, grid);
 AQB.Web.UI.SqlEditor(instanceId, sql);
 
-AQB.Web.UI.startApplication('http://localhost:1067/CreateQueryBuilder/CreateQueryBuilder', instanceId);
+AQB.Web.UI.startApplication('https://localhost:44368/CreateQueryBuilder/CreateQueryBuilder', instanceId);

@@ -36,13 +36,7 @@ namespace MVC_Samples.Controllers
         public ActionResult Index()
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(instanceId);
-
-            if (qb == null)
-            {
-                qb = _aqbs.Create(instanceId);
-                qb.SyntaxProvider = new GenericSyntaxProvider();
-            }
+            var qb = _aqbs.GetOrCreate(instanceId, q => q.SyntaxProvider = new GenericSyntaxProvider());
 
             return View(qb);
         }

@@ -26,8 +26,7 @@ namespace AspNetCoreJavaScript.Controllers
             _env = env;
             _config = config;
 
-            if (_aqbs.Get(instanceId) == null)
-                _aqbs.Create(instanceId);
+            _aqbs.GetOrCreate(instanceId);
         }
 
         public ActionResult Index()

@@ -41,16 +41,10 @@ namespace AspNetCoreCrossDomain.Controllers
 
         public ActionResult CreateQueryBuilder(string name)
         {
-            // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(name);
-
-            if (qb != null)
-                return StatusCode(200);
-
             try
             {
                 // Create an instance of the QueryBuilder object
-                _aqbs.Create(name);
+                _aqbs.GetOrCreate(name);
 
                 return StatusCode(200);
             }

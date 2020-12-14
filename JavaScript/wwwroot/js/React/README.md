@@ -8,4 +8,4 @@
 
 3. Execute the `npm start` command,
 
-4. Open the http://localhost:8080/ReactClientRendering URL in your browser.
+4. Open the https://localhost:8080/ReactClientRendering URL in your browser.

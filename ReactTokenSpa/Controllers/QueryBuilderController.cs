@@ -37,30 +37,26 @@ namespace ReactTokenSpa.Controllers
 
         public ActionResult CreateQueryBuilder(string name)
         {
-            // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(name);
-
-            if (qb != null)
-                return StatusCode(200);
-
             try
             {
                 // Create an instance of the QueryBuilder object
-                qb = _aqbs.Create(name);
-                qb.MetadataLoadingOptions.OfflineMode = true;
-                qb.SyntaxProvider = new GenericSyntaxProvider();
+                _aqbs.GetOrCreate(name, qb =>
+                {
+                    qb.MetadataLoadingOptions.OfflineMode = true;
+                    qb.SyntaxProvider = new GenericSyntaxProvider();
 
-                // Initialize metadata
-                var database = qb.MetadataContainer.AddSchema("dbo");
-                var orders = database.AddTable("Orders");
-                orders.AddField("Id");
-                orders.AddField("Name");
+                    // Initialize metadata
+                    var database = qb.MetadataContainer.AddSchema("dbo");
+                    var orders = database.AddTable("Orders");
+                    orders.AddField("Id");
+                    orders.AddField("Name");
 
-                var customers = database.AddTable("Customers");
-                customers.AddField("Id");
-                customers.AddField("Name");
+                    var customers = database.AddTable("Customers");
+                    customers.AddField("Id");
+                    customers.AddField("Name");
 
-                qb.MetadataStructure.Refresh();
+                    qb.MetadataStructure.Refresh();
+                });
 
                 return StatusCode(200);
             }

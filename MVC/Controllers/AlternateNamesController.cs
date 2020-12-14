@@ -31,19 +31,12 @@ namespace MVC_Samples.Controllers
         public ActionResult Index()
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(instanceId);
-
-            if (qb == null)
-                qb = CreateQueryBuilder();
-
+            var qb = _aqbs.GetOrCreate(instanceId, InitializeQueryBuilder);
             return View(qb);
         }
 
-        private QueryBuilder CreateQueryBuilder()
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Create(instanceId);
-
             queryBuilder.SyntaxProvider = new DB2SyntaxProvider();
 
             // Turn displaying of alternate names on in the text of result SQL query
@@ -61,8 +54,6 @@ namespace MVC_Samples.Controllers
 
             //Set default query
             queryBuilder.SQL = GetDefaultSql();
-
-            return queryBuilder;
         }
 
         private string GetDefaultSql()

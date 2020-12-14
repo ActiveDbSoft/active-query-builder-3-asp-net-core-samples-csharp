@@ -39,23 +39,18 @@ namespace AspNetCoreJavaScript.Controllers
         public void CreateFirstQueryBuilder()
         {
             // Get an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Get("FirstClient");
+            _aqbs.GetOrCreate("FirstClient", qb => {
+                qb.SyntaxProvider = new MSSQLSyntaxProvider();
 
-            if (queryBuilder != null)
-                return;
+                // Denies metadata loading requests from the metadata provider
+                qb.MetadataLoadingOptions.OfflineMode = true;
 
-            // Create an instance of the QueryBuilder object
-            queryBuilder = _aqbs.Create("FirstClient");
-            queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
-            
-            // Denies metadata loading requests from the metadata provider
-            queryBuilder.MetadataLoadingOptions.OfflineMode = true;
+                // Load MetaData from XML document.
+                var path = _config["NorthwindXmlMetaData"];
+                var xml = Path.Combine(_env.WebRootPath, path);
 
-            // Load MetaData from XML document.
-            var path = _config["NorthwindXmlMetaData"];
-            var xml = Path.Combine(_env.WebRootPath, path);
-
-            queryBuilder.MetadataContainer.ImportFromXML(xml);
+                qb.MetadataContainer.ImportFromXML(xml);
+            });
         }
 
         /// <summary>
@@ -64,23 +59,18 @@ namespace AspNetCoreJavaScript.Controllers
         public void CreateSecondQueryBuilder()
         {
             // Get an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Get("SecondClient");
+            _aqbs.GetOrCreate("SecondClient", qb => {
+                qb.SyntaxProvider = new MSSQLSyntaxProvider();
 
-            if (queryBuilder != null)
-                return;
+                // Denies metadata loading requests from the metadata provider
+                qb.MetadataLoadingOptions.OfflineMode = true;
 
-            // Create an instance of the QueryBuilder object
-            queryBuilder = _aqbs.Create("SecondClient");
-            queryBuilder.SyntaxProvider = new DB2SyntaxProvider();
-            
-            // Denies metadata loading requests from the metadata provider
-            queryBuilder.MetadataLoadingOptions.OfflineMode = true;
+                // Load MetaData from XML document.
+                var path = _config["Db2XmlMetaData"];
+                var xml = Path.Combine(_env.WebRootPath, path);
 
-            // Load MetaData from XML document.
-            var path = _config["Db2XmlMetaData"];
-            var xml = Path.Combine(_env.WebRootPath, path);
-
-            queryBuilder.MetadataContainer.ImportFromXML(xml);
+                qb.MetadataContainer.ImportFromXML(xml);
+            });
         }
     }
 }

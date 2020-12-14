@@ -71,7 +71,7 @@
         function onDataSourceFieldRemoving(field, abort) {
             if (isMainQuery() &&
                 field.field &&
-                field.field.object.NameStr === required.field.name &&
+                field.field.NameStr === required.field.name &&
                 field.table.Name === required.table) {
                 abort.abort = true;
                 queryBuilder.StatusBarComponent.messageWarning('Removing the required field is locked.');

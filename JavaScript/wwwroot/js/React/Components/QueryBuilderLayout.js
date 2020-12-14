@@ -8,7 +8,7 @@ export default class QueryBuilderLayout extends Component {
         var name = 'React';
 
         window.AQB = AQB;
-        AQB.Web.UI.QueryBuilder(name, this.querybuilder, { reinitUrl: 'http://localhost:1067/ReactClientRendering/CreateQueryBuilder' });
+        AQB.Web.UI.QueryBuilder(name, this.querybuilder, { reinitUrl: '/ReactClientRendering/CreateQueryBuilder' });
         AQB.Web.UI.ObjectTreeView(name, this.treeview);
         AQB.Web.UI.SubQueryNavigationBar(name, this.navbar);
         AQB.Web.UI.Canvas(name, this.canvas);

@@ -38,26 +38,21 @@ namespace AspNetCoreJavaScript.Controllers
         public ActionResult CreateQueryBuilder(string name)
         {
             // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(name);
+            _aqbs.GetOrCreate(name, qb => {
+                qb.SyntaxProvider = new MSSQLSyntaxProvider();
 
-            if (qb != null)
-                return new EmptyResult();
+                // Denies metadata loading requests from the metadata provider
+                qb.MetadataLoadingOptions.OfflineMode = true;
 
-            // Create an instance of the QueryBuilder object
-            var queryBuilder = _aqbs.Create(name);
-            queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
-            
-            // Denies metadata loading requests from live database connection
-            queryBuilder.MetadataLoadingOptions.OfflineMode = true;
+                // Load MetaData from XML document.
+                var path = _config["NorthwindXmlMetaData"];
+                var xml = Path.Combine(_env.WebRootPath, path);
 
-            // Load MetaData from XML document.
-            var path = _config["NorthwindXmlMetaData"];
-            var xml = Path.Combine(_env.WebRootPath, path);
+                qb.MetadataContainer.ImportFromXML(xml);
 
-            queryBuilder.MetadataContainer.ImportFromXML(xml);
-
-            //Set default query
-            queryBuilder.SQL = GetDefaultSql();
+                //Set default query
+                qb.SQL = GetDefaultSql();
+            });
 
             return new EmptyResult();
         }

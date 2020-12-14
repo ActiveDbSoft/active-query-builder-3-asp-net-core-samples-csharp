@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using ActiveQueryBuilder.Core;
 using ActiveQueryBuilder.Web.Core;
+using ActiveQueryBuilder.Web.Server;
 using ActiveQueryBuilder.Web.Server.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,17 +29,13 @@ namespace ASP.NET_Core.Controllers
         // GET
         public IActionResult Index()
         {
-            if (_aqbs.Get(InstanceID) == null)
-                CreateQueryBuilder(InstanceID);
+            _aqbs.GetOrCreate(InstanceID, InitializeQueryBuilder);
 
             return View();
         }
 
-        private void CreateQueryBuilder(string AInstanceID)
+        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
         {
-            // Create an instance of the QueryBuilder object.
-            var queryBuilder = _aqbs.Create(AInstanceID);
-
             // Create an instance of the proper syntax provider for your database server.
             queryBuilder.SyntaxProvider = new MSSQLSyntaxProvider();
 

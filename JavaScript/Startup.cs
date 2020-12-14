@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CookieSecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy;
 
 namespace AspNetCoreJavaScript
 {
@@ -39,6 +40,7 @@ namespace AspNetCoreJavaScript
             {
                 // Prevent SameSite=lax cookie property for Electron
                 options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -66,7 +68,7 @@ namespace AspNetCoreJavaScript
 
             // Active Query Builder requires support for Session HttpContext.
             app.UseSession();
-            
+
             // Active Query Builder server requests handler.
             app.UseActiveQueryBuilder();
 
