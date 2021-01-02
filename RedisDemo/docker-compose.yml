@@ -7,28 +7,49 @@ services:
     restart: unless-stopped
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
     depends_on:
-      - demo
       - api
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+      - executor
     ports:
-      - 80:80
-      - 443:443
+      - 8080:80
+      
+  redis:
+    image: redis
+    restart: unless-stopped
 
   db:
     build:
       context: ./db
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 3903312
+      MYSQL_ROOT_PASSWORD: strong_db_password
+    expose:
+      - 3306
       
   api:
+    build:
+      context: ./QueryBuilderApi
     depends_on:
-      - db    
-    image: activedbsoft/aspnetdemosite
+      - redis
     environment:
       - ASPNETCORE_URLS=http://+:4200
     expose:
       - 4200
+      
+  executor:
+    build:
+      context: ./QueryExecutor
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: adventureworks
+      MYSQL_USER: root
+      MYSQL_PASSWORD: strong_db_password
+      QB_API_HOST: "api:4200"
+      PORT: 4201
+    expose:
+      - 4201
+      

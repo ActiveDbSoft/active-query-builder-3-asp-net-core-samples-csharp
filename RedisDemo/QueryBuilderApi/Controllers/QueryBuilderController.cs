@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ActiveQueryBuilder.Core;
-using ActiveQueryBuilder.Web.Server.Infrastructure.Providers;
+﻿using ActiveQueryBuilder.Core;
+using ActiveQueryBuilder.Web.Server;
 using ActiveQueryBuilder.Web.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using RedisStorage.Providers;
+using QueryBuilderApi.Providers;
 
-namespace RedisStorage.Controllers
+namespace QueryBuilderApi.Controllers
 {
     public class QueryBuilderController : Controller
     {
@@ -23,10 +19,10 @@ namespace RedisStorage.Controllers
             _queryBuilderProvider = queryBuilderProvider;
         }
 
-        public string CheckToken(string token)
+        public string CheckToken(string token, string instanceId)
         {
             // check if the item with specified key exists in the storage. 
-            if (_queryBuilderProvider.CheckToken(token))
+            if (_queryBuilderProvider.CheckToken(token, instanceId))
                 // Return empty string in the case of success
                 return string.Empty;
 
@@ -39,19 +35,12 @@ namespace RedisStorage.Controllers
         /// </summary>
         /// <param name="name">Instance identifier of object in the current session.</param>
         /// <returns></returns>
-
         public ActionResult CreateQueryBuilder(string name)
         {
-            // Get an instance of the QueryBuilder object
-            var qb = _aqbs.Get(name);
-
-            if (qb != null)
-                return StatusCode(200);
-
             try
             {
                 // Create an instance of the QueryBuilder object
-                _aqbs.Create(name);
+                _aqbs.Get(name);
 
                 return StatusCode(200);
             }
@@ -61,14 +50,27 @@ namespace RedisStorage.Controllers
             }
         }
 
-        [Route("getSql/{token}")]
-        public ActionResult GetSql(string token)
+        [Route("getSql"), HttpPost]
+        public ActionResult GetSql([FromBody] GetSqlModel model)
         {
-            var sql = _queryBuilderProvider.GetSql(token);
+            if (model?.Token == null)
+                return NotFound();
+
+            var sql = _queryBuilderProvider.GetSql(model);
             if (string.IsNullOrEmpty(sql))
                 return NotFound();
 
             return Content(sql);
         }
+    }
+
+    public class GetSqlModel
+    {
+        public int Pagenum { get; set; }
+        public int Pagesize { get; set; }
+        public string Sortdatafield { get; set; }
+        public string Sortorder { get; set; }
+
+        public string Token { get; set; }
     }
 }

@@ -26,7 +26,9 @@
         </div>
     </div>
 <div class="container-fluid body-content">
-    
+    <div>
+        <button onclick="getData()">Get data</button>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <h1>Cross-domain QueryBuilder Request Demo</h1>
@@ -96,7 +98,7 @@
             // Send a request to check for the token validity.
             $.ajax({
                 type: 'GET',
-                url: AQB.Web.host + '/QueryBuilder/CheckToken?token=' + getToken(),
+                url: AQB.Web.host + '/QueryBuilder/CheckToken?token=' + getToken() + '&instanceId=' + instanceId,
                 success: function (token) {
                     // Save new token to the local storage to use in further requests.
                     if (token)
@@ -122,6 +124,23 @@
 
         function saveToken(token) {
             localStorage.setItem('queryBuilderToken', token);
+        }
+
+        function getData() {
+            $.ajax({
+                type: 'POST',
+                url: AQB.Web.host + '/getData',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ Token: getFullToken() }),
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    console.log(data);
+                }
+            });
+        }
+
+        function getFullToken() {
+            return getToken() + ':' + instanceId;
         }
 
         AQB.Web.UI.QueryBuilder(instanceId, $('#qb'));
