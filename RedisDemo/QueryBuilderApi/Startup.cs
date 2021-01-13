@@ -49,6 +49,7 @@ namespace QueryBuilderApi
 
             services.AddScoped<RedisQueryBuilderProvider>();
             services.AddScoped<IQueryBuilderProvider>(f => f.GetService<RedisQueryBuilderProvider>());
+            services.AddScoped<IQueryTransformerProvider, RedisQueryTransformerProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,9 +68,6 @@ namespace QueryBuilderApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
 
             app.UseRouting();
 

@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-domain QueryBuilder Request Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/black-tie/jquery-ui.css" />
+    <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.11.0/jsoneditor.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.css" />
+
+    <style>
+        .section-title, .body-content {
+            margin-top: 40px;
+        }
+        #qb, #qr {
+            padding: 5px;
+        }
+
+        #jsoneditor {
+            height: 500px;
+        }
+
+        .link-to-grid-site {
+            float: right;
+            color: blue !important;
+        }
+
+        .jsonPage {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .execute, .alert-danger {
+            display: none;
+        }
+
+        .recordsCount {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid body-content">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Display Query Results Demo</h1>
+                <p>Displaying SQL query results and modifying SQL queries while browsing the data.</p>
+            </div>
+        </div>
+        <div id="main-tabs" class="block-flat">
+            <ul>
+                <li><a href="#qbtab">Query Builder</a></li>
+                <li><a href="#qr">Query Results</a></li>
+            </ul>
+            <div class="row" id="qbtab">
+                <div class="col-md-12">
+                    <div id="qb"></div>
+                    <div class="qb-ui-layout">
+                        <div class="qb-ui-layout__top">
+                            <div class="qb-ui-layout__left">
+                                <div class="qb-ui-structure-tabs">
+                                    <div class="qb-ui-structure-tabs__tab">
+                                        <input type="radio" id="tree-tab" name="qb-tabs" checked />
+                                        <label for="tree-tab">Database</label>
+                                        <div class="qb-ui-structure-tabs__content">
+                                            <div id="treeview"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="qb-ui-layout__right">
+                                <div id="navbar"></div>
+                                <div id="canvas"></div>
+                                <div id="statusbar"></div>
+                                <div id="grid"></div>
+                            </div>
+                        </div>
+                        <div class="qb-ui-layout__bottom">
+                            <div id="sql"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="qr">
+                <div class="col-md-3">
+                    <div class="table-params"></div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary execute">Apply</button>
+                </div>
+                <div class="col-md-12">
+                    <div id="cb"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-danger"></div>
+                    <div id="dataExplorerContainer" class="block-flat">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <footer>
+            <p>&copy; 2021 - ActiveDbSoft</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://jqwidgets.com/public/jqwidgets/jqx-all.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/mode/sql/sql.min.js"></script>
+
+    <script type="text/javascript" src="/aqb.client.js"></script>
+    <script src="/js/queryResults.js"></script>
+    <script src="/js/paramsController.js"></script>
+    <script src="/js/dataExplorer.js"></script>
+    <script src="/js/jqxGridDataExplorer.js"></script>
+
+    <script>
+        // Set this property to the host on which the Active Query Builder handler resides.
+        AQB.Web.host = '';
+        // Specify a handler for pre-processing of requests to Active Query Builder server handlers.
+        AQB.Web.beforeSend = beforeSend;
+
+        // Instance identifier string to bind to the QueryBuilder component on the server side.
+        var instanceId = 'RedisQueryBuilder';
+
+        function beforeSend(xhr) {
+            // Add token the request header to identify the client and find the right QueryBuilder instance on the server.
+            xhr.setRequestHeader('query-builder-token', getToken());
+        }
+
+        function createQueryBuilder(onSuccess, onError) {
+            checkToken(function () {
+                createQbOnServer(onSuccess, onError);
+            });
+        }
+
+        function checkToken(callback) {
+            // Send a request to check for the token validity.
+            $.ajax({
+                type: 'GET',
+                url: AQB.Web.host + '/QueryBuilder/CheckToken?token=' + getToken() + '&instanceId=' + instanceId,
+                success: function (token) {
+                    // Save new token to the local storage to use in further requests.
+                    if (token)
+                        saveToken(token);
+                    callback();
+                }
+            });
+        }
+
+        function createQbOnServer(onSuccess, onError) {
+            $.ajax({
+                url: AQB.Web.host + '/QueryBuilder/CreateQueryBuilder',
+                data: { name: instanceId },
+                beforeSend: beforeSend,
+                success: onSuccess,
+                error: onError
+            });
+        }
+
+        function getToken() {
+            return localStorage.getItem('queryBuilderToken');
+        }
+
+        function saveToken(token) {
+            localStorage.setItem('queryBuilderToken', token);
+        }
+
+        function getFullToken() {
+            return getToken() + ':' + instanceId;
+        }
+
+        var dataUrl = "/getData";
+        var recordsCountUrl = "/getRecordsCount";
+
+        $(function () {
+            AQB.Web.UI.QueryBuilder(instanceId, $('#qb'));
+            AQB.Web.UI.CriteriaBuilder(instanceId, $('#cb'));
+            AQB.Web.UI.ObjectTreeView(instanceId, $('#treeview'));
+            AQB.Web.UI.SubQueryNavigationBar(instanceId, $('#navbar'));
+            AQB.Web.UI.Canvas(instanceId, $('#canvas'));
+            AQB.Web.UI.StatusBar(instanceId, $('#statusbar'));
+            AQB.Web.UI.Grid(instanceId, $('#grid'), { orColumnCount: 0, useCustomExpressionBuilder: AQB.Web.UI.Enums.AffectedColumns.ExpressionColumn });
+            AQB.Web.UI.SqlEditor(instanceId, $('#sql'));
+
+            AQB.Web.onQueryBuilderReady(subscribe);
+            AQB.Web.UI.startApplication(instanceId, createQueryBuilder);
+
+            var container = $('#dataExplorerContainer');
+
+            var dataExplorer = new JqxGridDataExplorer(container, dataUrl, recordsCountUrl, instanceId, beforeSend);
+
+            QueryResultsDemo(dataExplorer, instanceId, beforeSend);
+        });
+
+        function subscribe(qb) {
+            qb.on(qb.Events.SessionExpired, createQueryBuilder);
+        }
+    </script>
+
+</body>
+</html>

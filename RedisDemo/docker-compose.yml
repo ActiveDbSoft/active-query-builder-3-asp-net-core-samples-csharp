@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/www/:/var/www
     depends_on:
       - api
       - executor

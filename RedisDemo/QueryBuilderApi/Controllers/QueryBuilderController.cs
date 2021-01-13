@@ -1,5 +1,10 @@
-﻿using ActiveQueryBuilder.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using ActiveQueryBuilder.Core;
+using ActiveQueryBuilder.Core.QueryTransformer;
 using ActiveQueryBuilder.Web.Server;
+using ActiveQueryBuilder.Web.Server.Infrastructure.Providers;
 using ActiveQueryBuilder.Web.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using QueryBuilderApi.Providers;
@@ -10,13 +15,16 @@ namespace QueryBuilderApi.Controllers
     {
         private readonly IQueryBuilderService _aqbs;
         private readonly RedisQueryBuilderProvider _queryBuilderProvider;
+        private readonly IQueryTransformerService _qts;
 
         // Use IQueryBuilderService to get access to the server-side instances of Active Query Builder objects. 
         // See the registration of this service in the Startup.cs.
-        public QueryBuilderController(IQueryBuilderService aqbs, RedisQueryBuilderProvider queryBuilderProvider)
+        public QueryBuilderController(IQueryBuilderService aqbs, RedisQueryBuilderProvider queryBuilderProvider, 
+            IQueryTransformerService qts)
         {
             _aqbs = aqbs;
             _queryBuilderProvider = queryBuilderProvider;
+            _qts = qts;
         }
 
         public string CheckToken(string token, string instanceId)
@@ -53,14 +61,41 @@ namespace QueryBuilderApi.Controllers
         [Route("getSql"), HttpPost]
         public ActionResult GetSql([FromBody] GetSqlModel model)
         {
-            if (model?.Token == null)
-                return NotFound();
+            var qt = _qts.Get(model.InstanceId);
 
-            var sql = _queryBuilderProvider.GetSql(model);
-            if (string.IsNullOrEmpty(sql))
-                return NotFound();
+            qt.Skip((model.Pagenum * model.Pagesize).ToString());
+            qt.Take(model.Pagesize == 0 ? "" : model.Pagesize.ToString());
 
-            return Content(sql);
+            if (!string.IsNullOrEmpty(model.Sortdatafield))
+            {
+                qt.Sortings.Clear();
+
+                if (!string.IsNullOrEmpty(model.Sortorder))
+                {
+                    var c = qt.Columns.FindColumnByResultName(model.Sortdatafield);
+
+                    if (c != null)
+                        qt.OrderBy(c, model.Sortorder.ToLowerInvariant() == "asc");
+                }
+            }
+
+            return Content(qt.SQL);
+        }
+
+        [Route("getRecordCountSql"), HttpPost]
+        public ActionResult GetRecordCountSql([FromBody] GetRecordCountSqlModel model)
+        {
+            var qt = _qts.Get(model.InstanceId);
+
+            using (var qtForSelectRecordsCount = new QueryTransformer { QueryProvider = qt.QueryProvider })
+            {
+                qtForSelectRecordsCount.Assign(qt);
+                qtForSelectRecordsCount.Skip("");
+                qtForSelectRecordsCount.Take("");
+                qtForSelectRecordsCount.SelectRecordsCount("recCount");
+
+                return Content(qtForSelectRecordsCount.SQL);
+            }
         }
     }
 
@@ -71,6 +106,11 @@ namespace QueryBuilderApi.Controllers
         public string Sortdatafield { get; set; }
         public string Sortorder { get; set; }
 
-        public string Token { get; set; }
+        public string InstanceId { get; set; }
+    }
+
+    public class GetRecordCountSqlModel
+    {
+        public string InstanceId { get; set; }
     }
 }

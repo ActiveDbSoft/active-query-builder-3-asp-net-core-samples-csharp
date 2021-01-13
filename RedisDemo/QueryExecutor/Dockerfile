@@ -6,5 +6,6 @@ COPY package.json ./
 RUN npm install
 
 COPY index.js ./
+COPY queryBuilderApi.js ./
 
 CMD ["node", "index.js"]

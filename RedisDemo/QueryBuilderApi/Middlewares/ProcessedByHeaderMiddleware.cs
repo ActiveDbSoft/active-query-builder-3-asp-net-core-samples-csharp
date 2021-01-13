@@ -9,7 +9,7 @@ namespace QueryBuilderApi.Middlewares
     public class ProcessedByHeaderMiddleware
     {
         private readonly RequestDelegate _next;
-        private static string AppId = new Random().Next(1000).ToString();
+        private static readonly string AppId = new Random().Next(1000).ToString();
 
         public ProcessedByHeaderMiddleware(RequestDelegate next)
         {
