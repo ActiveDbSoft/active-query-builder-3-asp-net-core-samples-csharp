@@ -29,7 +29,8 @@ namespace QueryBuilderApi.Providers
 
         public QueryBuilder Get(string id)
         {
-            return ExecuteWithLock(id, () => GetByCacheKey(GetCacheKey(id), id));
+            var key = GetCacheKey(id);
+            return ExecuteWithLock(key, () => GetByCacheKey(key, id));
         }
 
         private QueryBuilder GetByCacheKey(string key, string id = null)
@@ -53,12 +54,14 @@ namespace QueryBuilderApi.Providers
 
         public void Put(QueryBuilder qb)
         {
-            ExecuteWithLock(qb.Tag, () => _cache.SetString(GetCacheKey(qb.Tag), qb.LayoutSQL));
+            var key = GetCacheKey(qb.Tag);
+            ExecuteWithLock(key, () => _cache.SetString(key, qb.LayoutSQL));
         }
 
         public void Delete(string id)
         {
-            ExecuteWithLock(id, () => _cache.Remove(GetCacheKey(id)));
+            var key = GetCacheKey(id);
+            ExecuteWithLock(key, () => _cache.Remove(key));
         }
 
         public bool CheckToken(string token, string instanceId)

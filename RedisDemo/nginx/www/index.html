@@ -123,13 +123,18 @@
     <script src="/js/jqxGridDataExplorer.js"></script>
 
     <script>
+        var allowMultipleInstancesPerUser = false;
+
         // Set this property to the host on which the Active Query Builder handler resides.
         AQB.Web.host = '';
         // Specify a handler for pre-processing of requests to Active Query Builder server handlers.
         AQB.Web.beforeSend = beforeSend;
 
         // Instance identifier string to bind to the QueryBuilder component on the server side.
-        var instanceId = 'RedisQueryBuilder';
+        var instanceId = allowMultipleInstancesPerUser ? Math.random().toString() : 'RedisQueryBuilder';
+
+        var dataUrl = "/getData";
+        var recordsCountUrl = "/getRecordsCount";
 
         function beforeSend(xhr) {
             // Add token the request header to identify the client and find the right QueryBuilder instance on the server.
@@ -176,10 +181,7 @@
 
         function getFullToken() {
             return getToken() + ':' + instanceId;
-        }
-
-        var dataUrl = "/getData";
-        var recordsCountUrl = "/getRecordsCount";
+        }        
 
         $(function () {
             AQB.Web.UI.QueryBuilder(instanceId, $('#qb'));

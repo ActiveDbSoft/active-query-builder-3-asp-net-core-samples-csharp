@@ -12,23 +12,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ActiveQueryBuilder.Core">
+      <HintPath>assemblies\ActiveQueryBuilder.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveQueryBuilder.View">
+      <HintPath>assemblies\ActiveQueryBuilder.View.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Core.NETCore">
+      <HintPath>assemblies\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Server.NETCore">
+      <HintPath>assemblies\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="AdventureWorks.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Choose>
-    <When Condition="'$(Configuration)'=='Docker'">
-      <ItemGroup>
-        <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="*" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <ProjectReference Include="..\..\..\..\..\Common\Core(NET_Framework)\Core.csproj" />
-        <ProjectReference Include="..\..\..\..\..\Common\Server\Server.NETCore.csproj" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
 
 </Project>

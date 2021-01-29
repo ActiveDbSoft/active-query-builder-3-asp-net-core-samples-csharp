@@ -27,29 +27,32 @@ namespace QueryBuilderApi.Providers
 
         public QueryTransformer Get(string id)
         {
-            return ExecuteWithLock(id, () => GetByCacheKey(GetCacheKey(id), id));
+            var key = GetCacheKey(id);
+            return ExecuteWithLock(key, () => GetByCacheKey(key, id));
         }
 
         private QueryTransformer GetByCacheKey(string key, string id)
         {
             var qb = _queryBuilderProvider.Get(id);
             var stateXml = _cache.GetString(key);
+
             if (string.IsNullOrEmpty(stateXml))
                 return new QueryTransformer { Tag = id, QueryProvider = qb.SQLQuery };
 
             _cache.Refresh(key);
-            return new QueryTransformer { Tag = id, XML = stateXml, QueryProvider = qb.SQLQuery };
+            return new QueryTransformer { QueryProvider = qb.SQLQuery, Tag = id, XML = stateXml };
         }
 
         public void Put(QueryTransformer qt)
         {
-            var instanceId = qt.Tag.ToString();
-            ExecuteWithLock(instanceId, () => _cache.SetString(GetCacheKey(instanceId), qt.XML));
+            var key = GetCacheKey(qt.Tag.ToString());
+            ExecuteWithLock(key, () => _cache.SetString(key, qt.XML));
         }
 
         public void Delete(string id)
         {
-            ExecuteWithLock(id, () => _cache.Remove(GetCacheKey(id)));
+            var key = GetCacheKey(id);
+            ExecuteWithLock(key, () => _cache.Remove(key));
         }
 
         protected override string GetCacheKey(string id)
