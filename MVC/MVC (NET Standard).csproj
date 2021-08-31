@@ -8,7 +8,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
     <Configurations>Debug;Release</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
@@ -35,7 +34,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="System.Data.Odbc" Version="4.5.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,10 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.7.18.1193" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.7.18.1193" />
+    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.8.9.2207" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.8.9.2207" />
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.7.18.437" />
+    
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.8.9.445" />
     
   </ItemGroup>
 

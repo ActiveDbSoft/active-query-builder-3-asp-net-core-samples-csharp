@@ -1,0 +1,48 @@
+version: '3.3'
+
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+      - app
+    ports:
+      - 8080:80
+
+  db:
+    build:
+      context: ./db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: strong_db_password
+    expose:
+      - 3306
+      
+  api:
+    build:
+      context: ./QueryBuilderApi
+    environment:
+      - ASPNETCORE_URLS=http://+:4200
+    expose:
+      - 4200
+      
+  app:
+    build:
+      context: ./app
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: adventureworks
+      MYSQL_USER: root
+      MYSQL_PASSWORD: strong_db_password
+      QB_API_HOST: "api:4200"
+      PORT: 4201
+    expose:
+      - 4201
+      

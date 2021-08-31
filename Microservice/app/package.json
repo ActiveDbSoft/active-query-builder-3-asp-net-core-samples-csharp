@@ -1,0 +1,19 @@
+{
+  "name": "queryexecutor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Active Database Software",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.17.1",
+    "form-data": "^4.0.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.0"
+  }
+}

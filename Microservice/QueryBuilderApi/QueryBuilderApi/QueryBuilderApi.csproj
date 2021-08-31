@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="AdventureWorks.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="AdventureWorks.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ActiveQueryBuilder.Core">
+      <HintPath>assemblies\ActiveQueryBuilder.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveQueryBuilder.View">
+      <HintPath>assemblies\ActiveQueryBuilder.View.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Core.NETCore">
+      <HintPath>assemblies\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveQueryBuilder.Web.Server.NETCore">
+      <HintPath>assemblies\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+</Project>
