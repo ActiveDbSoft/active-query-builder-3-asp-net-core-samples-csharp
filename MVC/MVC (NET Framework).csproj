@@ -37,12 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.8.15.2217" />
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.8.15.2217" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.8.15.2217" />
+    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.8.16.2218" />
+    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.8.16.2218" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.8.16.2218" />
     
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.8.15.451" />
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.8.16.452" />
     
   </ItemGroup>
 
