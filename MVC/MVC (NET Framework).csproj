@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <Configurations>Debug;Release</Configurations>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
   </PropertyGroup>
@@ -37,12 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.8.16.2218" />
-    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.8.16.2218" />
-    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.8.16.2218" />
+    <PackageReference Include="ActiveQueryBuilder.EventMetadataProvider" Version="3.8.17.2219" />
+    <PackageReference Include="ActiveQueryBuilder.ODBCMetadataProvider" Version="3.8.17.2219" />
+    <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.8.17.2219" />
     
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.8.16.452" />
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.8.17.453" />
     
   </ItemGroup>
 
