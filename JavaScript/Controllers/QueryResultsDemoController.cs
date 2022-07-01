@@ -36,8 +36,6 @@ namespace AspNetCoreJavaScript.Controllers
 
         public ActionResult Index()
         {
-            Initialize();
-
             return View();
         }
 
@@ -90,40 +88,6 @@ namespace AspNetCoreJavaScript.Controllers
             public string Error { get; set; }
         }
 
-        public void Initialize()
-        {
-            // Get an instance of the QueryBuilder object
-            var qb = _aqbs.GetOrCreate(instanceId, InitializeQueryBuilder);
-            _qts.GetOrCreate(instanceId, t =>
-            {
-                t.QueryProvider = qb.SQLQuery;
-                t.AlwaysExpandColumnsInQuery = true;
-            });
-        }
-
-        /// <summary>
-        /// Creates and initializes a new instance of the QueryBuilder object.
-        /// </summary>
-        /// <returns>Returns instance of the QueryBuilder object.</returns>
-        private void InitializeQueryBuilder(QueryBuilder queryBuilder)
-        {
-            // Create an instance of the proper syntax provider for your database server.
-            queryBuilder.SyntaxProvider = new SQLiteSyntaxProvider();
-
-            // Turn this property on to suppress parsing error messages when user types non-SELECT statements in the text editor.
-            queryBuilder.BehaviorOptions.AllowSleepMode = false;
-
-            // Bind Active Query Builder to a live database connection.
-            queryBuilder.MetadataProvider = new SQLiteMetadataProvider
-            {
-                // Assign an instance of DBConnection object to the Connection property.
-                Connection = DataBaseHelper.CreateSqLiteConnection(GetDataBasePath())
-            };
-
-            // Assign the initial SQL query text the user sees on the _first_ page load
-            queryBuilder.SQL = GetDefaultSql();
-        }
-
         [HttpPost]
         public ActionResult SelectRecordsCount([FromBody] Param[] _params)
         {
@@ -150,14 +114,6 @@ namespace AspNetCoreJavaScript.Controllers
         {
             var path = _config["SqLiteDataBase"];
             return Path.Combine(_env.WebRootPath, path);
-        }
-
-        private string GetDefaultSql()
-        {
-            return @"Select customers.CustomerId,
-                      customers.LastName,
-                      customers.FirstName
-                    From customers";
         }
     }
 

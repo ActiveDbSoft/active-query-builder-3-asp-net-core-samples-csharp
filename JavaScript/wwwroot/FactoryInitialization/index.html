@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Initialization - My ASP.NET Application</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/black-tie/jquery-ui.css" />
+    <style>
+        .section-title, .body-content {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">JavaScript samples</a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid body-content">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Factory Initialization Demo</h1>
+            <p>
+                Active Query Builder starts immediately on the page load.
+            </p>
+        </div>
+        <div class="col-md-12">
+            <div id="qb"></div>
+            <div class="qb-ui-layout">
+                <div class="qb-ui-layout__top">
+                    <div class="qb-ui-layout__left">
+                        <div class="qb-ui-structure-tabs">
+                            <div class="qb-ui-structure-tabs__tab">
+                                <input type="radio" id="tree-tab" name="qb-tabs" checked/>
+                                <label for="tree-tab">Database</label>
+                                <div class="qb-ui-structure-tabs__content">
+                                    <div id="treeview"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qb-ui-layout__right">
+                        <div id="navbar"></div>
+                        <div id="canvas"></div>
+                        <div id="statusbar"></div>
+                        <div id="grid"></div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__bottom">
+                    <div id="sql"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <footer>
+        <p>&copy; 2022 - ActiveDbSoft</p>
+    </footer>
+</div>
+    
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="/aqb.client.js"></script>
+<script type="text/javascript">
+    var name = 'FactoryInitialization';
+
+    $(function () {
+        AQB.Web.UI.QueryBuilder(name, $('#qb'));
+        AQB.Web.UI.ObjectTreeView(name, $('#treeview'));
+        AQB.Web.UI.SubQueryNavigationBar(name, $('#navbar'));
+        AQB.Web.UI.Canvas(name, $('#canvas'));
+        AQB.Web.UI.StatusBar(name, $('#statusbar'));
+        AQB.Web.UI.Grid(name, $('#grid'), { orColumnCount: 0 });
+        AQB.Web.UI.SqlEditor(name, $('#sql'));
+
+        AQB.Web.UI.autoInit();
+    });
+</script>
+</body>
+</html>

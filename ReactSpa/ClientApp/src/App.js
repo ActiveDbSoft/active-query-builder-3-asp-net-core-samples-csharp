@@ -15,7 +15,7 @@ export default class App extends Component {
     AQB.Web.UI.Grid(this.name, this.grid);
     AQB.Web.UI.SqlEditor(this.name, this.sql);
 
-    AQB.Web.UI.startApplication('/QueryBuilder/CreateQueryBuilder', this.name);
+    AQB.Web.UI.autoInit();
   }
 
   render() {

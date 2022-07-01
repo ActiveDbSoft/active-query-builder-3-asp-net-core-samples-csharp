@@ -112,7 +112,7 @@
             AQB.Web.UI.Grid(name, $('#grid'), { orColumnCount: 0 });
             AQB.Web.UI.SqlEditor(name, $('#sql'));
 
-            AQB.Web.UI.startApplication(name);
+            AQB.Web.UI.autoInit();
 
             setTimeout(function () {
                 document.getElementsByClassName('qb-ui-layout')[0].classList.add('fadeIn');

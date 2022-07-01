@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ActiveQueryBuilder.Web.Core;
+using ActiveQueryBuilder.Web.Server.Infrastructure.Factories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using QueryBuilderFactory = VueSpa.Factories.QueryBuilderFactory;
 
 namespace VueSpa
 {
@@ -22,6 +24,7 @@ namespace VueSpa
             // Active Query Builder requires support for Session HttpContext. 
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IQueryBuilderInstanceFactory, QueryBuilderFactory>();
 
             services.AddActiveQueryBuilder();
 

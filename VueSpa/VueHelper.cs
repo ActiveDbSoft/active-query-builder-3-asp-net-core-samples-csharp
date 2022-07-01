@@ -16,7 +16,7 @@ namespace VueSpa
     public static class VueHelper
     {
         // default port number of 'npm run serve'
-        private static int Port { get; } = 8080;
+        private static int Port { get; } = 8081;
         private static Uri DevelopmentServerEndpoint { get; } = new Uri($"http://localhost:{Port}");
         private static TimeSpan Timeout { get; } = TimeSpan.FromSeconds(30);
         // done message of 'npm run serve' command.

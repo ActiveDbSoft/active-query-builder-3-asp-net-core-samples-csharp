@@ -27,7 +27,7 @@ export class QuerybuilderComponent implements OnInit {
     AQB.Web.UI.Grid(name, grid, { orColumnCount: 0 });
     AQB.Web.UI.SqlEditor(name, sql);
 
-    AQB.Web.UI.startApplication('QueryBuilder/CreateQueryBuilder', name);
+    AQB.Web.UI.autoInit();
   }
 
 }

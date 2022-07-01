@@ -45,7 +45,7 @@ export default {
     AQB.Web.UI.Grid(name, this.$refs.grid, { orColumnCount: 0 });
     AQB.Web.UI.SqlEditor(name, this.$refs.sql);
 
-    AQB.Web.UI.startApplication('QueryBuilder/CreateQueryBuilder', name);
+    AQB.Web.UI.autoInit();
   }
 }
 </script>

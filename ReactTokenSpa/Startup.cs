@@ -1,4 +1,5 @@
 using ActiveQueryBuilder.Web.Core;
+using ActiveQueryBuilder.Web.Server.Infrastructure.Factories;
 using ActiveQueryBuilder.Web.Server.Infrastructure.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReactTokenSpa.Providers;
+using QueryBuilderFactory = ReactTokenSpa.Factories.QueryBuilderFactory;
 
 namespace ReactTokenSpa
 {
@@ -29,6 +31,7 @@ namespace ReactTokenSpa
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IQueryBuilderProvider, TokenQueryBuilderProvider>();
+            services.AddScoped<IQueryBuilderInstanceFactory, QueryBuilderFactory>();
 
             services.AddActiveQueryBuilder();
 

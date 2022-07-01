@@ -16,19 +16,14 @@ export default class App extends Component {
     AQB.Web.UI.Grid(this.name, this.grid);
     AQB.Web.UI.SqlEditor(this.name, this.sql);
 
-    AQB.Web.UI.startApplication(this.name, this.createQueryBuilder);
+    this.checkToken(function () {
+        AQB.Web.UI.autoInit();
+    });
   }
 
   beforeSend = (xhr) => {
       // Add token the request header to identify the client and find the right QueryBuilder instance on the server.
       xhr.setRequestHeader('query-builder-token', this.getToken());
-  }
-
-  createQueryBuilder = (onSuccess, onError) => {
-    const me = this;
-    this.checkToken(function () {
-      me.createQbOnServer(onSuccess, onError);
-    });
   }
 
   checkToken = (callback) => {
@@ -39,15 +34,6 @@ export default class App extends Component {
           this.saveToken(token);
         callback();
       });
-  }
-
-  createQbOnServer = (onSuccess, onError) => {    
-    fetch('/QueryBuilder/CreateQueryBuilder?name=' + this.name, 
-    {
-      headers: {'query-builder-token': this.getToken() }
-    })
-    .then(r => onSuccess())
-    .catch(e => onError());
   }
   
   getToken = () => {

@@ -1,4 +1,5 @@
 using ActiveQueryBuilder.Web.Core;
+using ActiveQueryBuilder.Web.Server.Infrastructure.Factories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QueryBuilderFactory = ReactSpa.Factories.QueryBuilderFactory;
 
 namespace ReactSpa
 {
@@ -26,6 +28,7 @@ namespace ReactSpa
             // Active Query Builder requires support for Session HttpContext. 
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IQueryBuilderInstanceFactory, QueryBuilderFactory>();
 
             services.AddActiveQueryBuilder();
 

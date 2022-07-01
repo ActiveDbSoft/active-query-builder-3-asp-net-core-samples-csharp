@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ActiveQueryBuilder.Web.Core;
+using ActiveQueryBuilder.Web.Server.Infrastructure.Factories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,8 @@ namespace AspNetCoreJavaScript
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(Configuration);
+            services.AddScoped<IQueryBuilderInstanceFactory, Factories.QueryBuilderFactory>();
+            services.AddScoped<IQueryTransformerInstanceFactory, Factories.QueryBuilderFactory>();
 
             // This service provides access to instances of QueryBuilder and QueryTranformer objects on the server.
             IConfiguration qbConfig = null;
@@ -72,6 +75,7 @@ namespace AspNetCoreJavaScript
             // Active Query Builder server requests handler.
             app.UseActiveQueryBuilder();
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

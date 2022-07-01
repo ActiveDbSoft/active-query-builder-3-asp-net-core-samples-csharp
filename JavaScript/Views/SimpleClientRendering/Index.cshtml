@@ -50,7 +50,7 @@
         var name = 'SimpleClient';
 
         $(function () {
-            AQB.Web.UI.QueryBuilder(name, $('#qb'), { reinitUrl: '/SimpleClientRendering/CreateQueryBuilder' });
+            AQB.Web.UI.QueryBuilder(name, $('#qb'));
             AQB.Web.UI.ObjectTreeView(name, $('#treeview'));
             AQB.Web.UI.SubQueryNavigationBar(name, $('#navbar'));
             AQB.Web.UI.Canvas(name, $('#canvas'));
@@ -58,7 +58,7 @@
             AQB.Web.UI.Grid(name, $('#grid'), { orColumnCount: 0 });
             AQB.Web.UI.SqlEditor(name, $('#sql'));
 
-            AQB.Web.UI.startApplication(name);
+            AQB.Web.UI.autoInit();
         });
     </script>
 }
