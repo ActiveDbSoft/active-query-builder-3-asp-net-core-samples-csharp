@@ -27,7 +27,7 @@
     <PackageReference Include="ActiveQueryBuilder.SQLiteMetadataProvider" Version="3.9.8.2240" />
     
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.9.8.474" />
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.9.8.475" />
     
   </ItemGroup>
 
