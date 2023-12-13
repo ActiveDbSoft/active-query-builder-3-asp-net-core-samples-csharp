@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "SignalR Demo";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>SignalR Demo</h1>
+        <p>
+            Active Query Builder starts immediately on the page load.
+        </p>
+    </div>
+    <div class="col-md-12">
+        <div id="qb"></div>
+        <div class="qb-ui-layout">
+            <div class="qb-ui-layout__top">
+                <div class="qb-ui-layout__left">
+                    <div class="qb-ui-structure-tabs">
+                        <div class="qb-ui-structure-tabs__tab">
+                            <input type="radio" id="tree-tab" name="qb-tabs" checked/>
+                            <label for="tree-tab">Database</label>
+                            <div class="qb-ui-structure-tabs__content">
+                                <div id="treeview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="qb-ui-layout__right">
+                    <div id="navbar"></div>
+                    <div id="canvas"></div>
+                    <div id="statusbar"></div>
+                    <div id="grid"></div>
+                </div>
+            </div>
+            <div class="qb-ui-layout__bottom">
+                <div id="sql"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="/aqb.client.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <script type="text/javascript">
+        // Instance identifier string to bind to the QueryBuilder component on the server side. See the SimpleQueryBuilderController.cs code for details.
+        var name = 'Signalr';
+
+        $(function () {
+            AQB.Web.UI.QueryBuilder(name, $('#qb'));
+            AQB.Web.UI.ObjectTreeView(name, $('#treeview'));
+            AQB.Web.UI.SubQueryNavigationBar(name, $('#navbar'));
+            AQB.Web.UI.Canvas(name, $('#canvas'));
+            AQB.Web.UI.StatusBar(name, $('#statusbar'));
+            AQB.Web.UI.Grid(name, $('#grid'), { orColumnCount: 0 });
+            AQB.Web.UI.SqlEditor(name, $('#sql'));
+
+            const connection = new signalR.HubConnectionBuilder()
+               .withUrl("/query-builder/handler")
+               .build();
+
+            connection.start().then(() => {
+                AQB.Web.UI.useSignalR(connection);
+            });
+        });
+    </script>
+}
