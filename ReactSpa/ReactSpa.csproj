@@ -24,7 +24,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.11.4.486" />
+    <PackageReference Include="ActiveQueryBuilder.Web.MVC" Version="3.11.5.487" />
     
   </ItemGroup>
 

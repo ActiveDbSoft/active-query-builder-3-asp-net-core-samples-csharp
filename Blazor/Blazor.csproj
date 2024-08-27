@@ -11,10 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="ActiveQueryBuilder.Core, Version=3.11.4.2253, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Core.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.Core.NETCore, Version=3.11.4.486, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.Server.NETCore, Version=3.11.4.486, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.SignalR, Version=3.11.4.486, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.SignalR.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Core, Version=3.11.5.2254, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Core.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Web.Core.NETCore, Version=3.11.5.487, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Web.Server.NETCore, Version=3.11.5.487, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Web.SignalR, Version=3.11.5.487, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.SignalR.dll</HintPath>	</Reference>
     </ItemGroup>
 
     <ItemGroup>
