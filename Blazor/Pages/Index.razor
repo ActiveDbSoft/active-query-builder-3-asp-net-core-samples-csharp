@@ -1,5 +1,10 @@
-﻿@page "/"
+﻿@using ActiveQueryBuilder.Web.Server
+@using ActiveQueryBuilder.Web.Server.Infrastructure.Factories
+@using ActiveQueryBuilder.Web.Server.Services
+
+@page "/"
 @inject IJSRuntime Js
+@inject IServiceProvider ServiceProvider
 @implements IAsyncDisposable
 
 <PageTitle>Blazor Rendering Demo</PageTitle>
@@ -12,6 +17,7 @@
         <p>
             Active Query Builder starts immediately on the page load.
         </p>
+        <button type="button" class="btn btn-primary" @onclick="OnClick">Test</button>
     </div>
     <div class="col-md-12">
         <div id="qb"></div>
@@ -43,12 +49,35 @@
 </div>
 
 @code {
+    private const string _sessionId = "Blazor";
+    private DotNetObjectReference<Index>? _dotNetHelper;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            _dotNetHelper = DotNetObjectReference.Create(this);
+
+            await Js.InvokeVoidAsync("Helpers.setDotNetHelper", _dotNetHelper);
             await Js.InvokeVoidAsync("initializeQueryBuilder");
         }
+    }
+
+    public async Task OnClick()
+    {
+        var qb = getQueryBuilder();
+    }
+
+    [JSInvokable("OnSqlUpdated")]
+    public async Task OnSqlUpdated()
+    {
+        var qb = getQueryBuilder();
+    }
+
+    private QueryBuilder getQueryBuilder()
+    {
+        var storage = new KeyBasedQueryBuilderSessionStorage(ServiceProvider, _sessionId);
+        return storage.Get(_sessionId);
     }
 
     public async ValueTask DisposeAsync()
