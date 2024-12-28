@@ -11,10 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="ActiveQueryBuilder.Core, Version=3.12.2.2258, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Core.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.Core.NETCore, Version=3.12.2.490, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.Server.NETCore, Version=3.12.2.490, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.SignalR, Version=3.12.2.490, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.SignalR.dll</HintPath>	</Reference>
+        <ProjectReference Include="..\..\..\..\..\lib\active-query-builder-3-net\src\ActiveQueryBuilder.Core\ActiveQueryBuilder.Core.csproj" />
+        <ProjectReference Include="..\..\..\..\Common\Core(NET_Framework)\Core.csproj" />
+        <ProjectReference Include="..\..\..\..\Common\Server\Server.NETCore.csproj" />
+        <ProjectReference Include="..\..\..\..\Common\Core.SignalR\Core.SignalR.csproj" />
     </ItemGroup>
 
     <ItemGroup>

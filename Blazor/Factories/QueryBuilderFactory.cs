@@ -11,8 +11,6 @@ namespace Blazor.Factories
         private readonly IConfiguration _config;
         private readonly IQueryBuilderService _qbService;
 
-        private Dictionary<string, Func<string, QueryBuilder>> _qbFactories;
-
         public QueryBuilderFactory(
             IWebHostEnvironment env,
             IConfiguration config,
@@ -25,24 +23,7 @@ namespace Blazor.Factories
 
         public QueryBuilder Create(string name)
         {
-            return GetQbFactory(name)(name);
-        }
-
-        private Func<string, QueryBuilder> GetQbFactory(string name)
-        {
-            if (_qbFactories == null)
-                _qbFactories = CreateQbFactories();
-
-            _qbFactories = CreateQbFactories();
-            return _qbFactories[name];
-        }
-
-        private Dictionary<string, Func<string, QueryBuilder>> CreateQbFactories()
-        {
-            return new Dictionary<string, Func<string, QueryBuilder>>
-            {
-                { "Blazor", SimpleDemo },
-            };
+            return SimpleDemo(name);
         }
 
         private QueryBuilder SimpleDemo(string name)

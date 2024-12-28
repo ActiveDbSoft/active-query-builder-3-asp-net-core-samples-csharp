@@ -48,3 +48,7 @@ window.initializeQueryBuilder = () => {
 window.disposeQueryBuilder = () => {
     AQB.Web.QueryBuilder.dispose();
 }
+
+window.getSessionId = () => {
+    return sessionId;
+}

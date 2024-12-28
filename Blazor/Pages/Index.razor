@@ -49,7 +49,6 @@
 </div>
 
 @code {
-    private const string _sessionId = "Blazor";
     private DotNetObjectReference<Index>? _dotNetHelper;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -65,19 +64,25 @@
 
     public async Task OnClick()
     {
-        var qb = getQueryBuilder();
+        var qb = await getQueryBuilder();
     }
 
     [JSInvokable("OnSqlUpdated")]
     public async Task OnSqlUpdated()
     {
-        var qb = getQueryBuilder();
+        var qb = await getQueryBuilder();
     }
 
-    private QueryBuilder getQueryBuilder()
+    private async Task<QueryBuilder> getQueryBuilder()
     {
-        var storage = new KeyBasedQueryBuilderSessionStorage(ServiceProvider, _sessionId);
-        return storage.Get(_sessionId);
+        var sessionId = await getSessionId();
+        var storage = new KeyBasedQueryBuilderSessionStorage(ServiceProvider, sessionId);
+        return storage.Get(sessionId);
+    }
+
+    private async Task<string> getSessionId()
+    {
+        return await Js.InvokeAsync<string>("getSessionId");
     }
 
     public async ValueTask DisposeAsync()
