@@ -77,7 +77,6 @@ namespace MVC_Samples.Controllers
                         o.ShipCity
                     From Orders o
                         Inner Join Customers c On o.CustomerID = c.CustomerID
-                        Inner Join Shippers s On s.ShipperID = o.OrderID
                     Where o.ShipCity = 'A'";
         }
     }

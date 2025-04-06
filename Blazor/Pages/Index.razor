@@ -17,7 +17,6 @@
         <p>
             Active Query Builder starts immediately on the page load.
         </p>
-        <button type="button" class="btn btn-primary" @onclick="OnClick">Test</button>
     </div>
     <div class="col-md-12">
         <div id="qb"></div>
@@ -60,11 +59,6 @@
             await Js.InvokeVoidAsync("Helpers.setDotNetHelper", _dotNetHelper);
             await Js.InvokeVoidAsync("initializeQueryBuilder");
         }
-    }
-
-    public async Task OnClick()
-    {
-        var qb = await getQueryBuilder();
     }
 
     [JSInvokable("OnSqlUpdated")]
