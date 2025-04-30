@@ -10,9 +10,9 @@
 
     <ItemGroup>
         <Reference Include="ActiveQueryBuilder.Core, Version=3.13.2.2264, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Core.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.Core.NETCore, Version=3.13.1.494, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.Server.NETCore, Version=3.13.1.494, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>	</Reference>
-        <Reference Include="ActiveQueryBuilder.Web.SignalR, Version=3.13.1.494, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.SignalR.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Web.Core.NETCore, Version=3.13.2.495, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Core.NETCore.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Web.Server.NETCore, Version=3.13.2.495, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.Server.NETCore.dll</HintPath>	</Reference>
+        <Reference Include="ActiveQueryBuilder.Web.SignalR, Version=3.13.2.495, Culture=neutral, PublicKeyToken=49d051b90653c7f4, processorArchitecture=MSIL">		<HintPath>..\..\..\assemblies_NETCore\ActiveQueryBuilder.Web.SignalR.dll</HintPath>	</Reference>
     </ItemGroup>
 
     <ItemGroup>
